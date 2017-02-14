@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+import datetime
 
 db = SQLAlchemy()
 
@@ -31,7 +32,7 @@ class Event(db.Model):
 
 class Challenge(db.Model):
     cid = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    eid = db.Column(db.Integer, db.ForeignKey('event.eid'), primary_key=True)
+    eid = db.Column(db.Integer, db.ForeignKey('event.eid'))
     name = db.Column(db.String(64))
     category = db.Column(db.String(64))
     description = db.Column(db.Text)
@@ -57,7 +58,7 @@ class WorkingOn(db.Model):
 
 class File(db.Model):
     fid = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    cid = db.Column(db.Integer, db.ForeignKey('challenge.cid'), primary_key=True)
+    cid = db.Column(db.Integer, db.ForeignKey('challenge.cid'))
     location = db.Column(db.Text)
 
     def __init__(self, fid, cid, location):
@@ -73,3 +74,6 @@ class Config(db.Model):
     def __init__(self, key, value):
 	self.key = key
 	self.value = value
+
+    def __repr__(self):
+	print 'Key:{}, Value:{}'.format(self.key, self.value)
