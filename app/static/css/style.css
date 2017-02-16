@@ -1,0 +1,46 @@
+main, footer {
+  padding-left: 300px;
+}
+
+@media only screen and (max-width : 992px) {
+  header, main, footer {
+    padding-left: 0;
+  }
+  .side-nav {
+	top: 56px;
+	z-index: 0;
+  }
+}
+
+.navbar-fixed {
+	z-index: 999;
+}
+
+footer.page-footer {
+	padding-top: 0px;
+}
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+#sidenav-overlay {
+	z-index: -1;
+}
+.side-nav .userView{
+	padding: 0px 0px 0;
+}
+.side-nav .userView .name {
+	font-size: 24px;
+}
+
+@media only screen and (min-width: 601px){
+  .side-nav {
+	top: 64px;
+	z-index: 0;
+  }
+}
