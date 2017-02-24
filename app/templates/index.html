@@ -68,4 +68,43 @@
             </div>
         </div>
     </div>
+
+    <div data-target="modal1" class="fixed-action-btn">
+            <a class="btn-floating btn-large waves-effect waves-light red z-depth-5"><i class="material-icons">add</i></a>
+        </div>
+
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4>Add a File/Comment/Code</h4>
+                <div class="row">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea id="textarea1" class="materialize-textarea"></textarea>
+                                    <label for="textarea1">Comment</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea id="textarea1" class="materialize-textarea"></textarea>
+                                    <label for="textarea1">Code</label>
+                                </div>
+                            </div>
+                            <div class="file-field input-field">
+                                <div class="btn">
+                                    <span>Files</span>
+                                    <input type="file" multiple>
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-grey btn-flat ">Add</a>
+            </div>
+        </div>
 {% endblock %}
