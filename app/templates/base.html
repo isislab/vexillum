@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="../static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    {% block style %}
+    {% endblock %}
 </head>
 
 <body>
@@ -53,7 +55,7 @@
             <li class="no-padding">
                 <ul class="collapsible collapsible-accordion">
                     <li>
-                        <a class="collapsible-header">Old CTFs<i class="material-icons">arrow_drop_down</i></a>
+                        <a class="collapsible-header">Past CTFs<i class="material-icons">arrow_drop_down</i></a>
                         <div class="collapsible-body">
                             <ul>
                                 <li><a href="#!">First</a></li>
@@ -84,6 +86,8 @@
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons medium">menu</i></a>
     </header>
     <main>
+    {% block content %}
+    {% endblock %}
     </main>
     <footer class="page-footer blue-grey">
         <div class="footer-copyright">
@@ -96,6 +100,8 @@
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="../static/js/materialize.js"></script>
     <script src="../static/js/init.js"></script>
+    {% block scripts %}
+    {% endblock %}
 </body>
 
 </html>

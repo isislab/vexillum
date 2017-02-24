@@ -1,142 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
-    <title>Vexillum</title>
-    <!-- CSS  -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="../static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-    <link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
-</head>
-
-<body>
-    <header>
-        <div class="navbar-fixed">
-            <nav>
-                <div class="nav-wrapper blue-grey">
-                    <a href="#!" class="brand-logo center">Vexillum</a>
-                    <a href="#" data-activates="mobile-menu" class="button-collapse right"><i class="material-icons">menu</i></a>
-                    <ul class="right hide-on-med-and-down">
-                        <li><a href="#!">Register</a></li>
-                        <li><a href="#!">Login</a></li>
-                    </ul>
-                    <ul class="side-nav" id="mobile-menu">
-                        <li><a href="#!">Register</a></li>
-                        <li><a href="#!">Login</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-        <ul id="nav-mobile" class="side-nav fixed">
-            <li>
-                <div class="userView">
-                    <a class="name blue-grey-text text-darken-4 center">Team Name</a>
-                </div>
-            </li>
-            <li class="no-padding">
-                <ul class="collapsible collapsible-accordion">
-                    <li>
-                        <a class="collapsible-header">Current CTFs<i class="material-icons">arrow_drop_down</i></a>
-                        <div class="collapsible-body">
-                            <ul>
-                                <li><a href="#!">First</a></li>
-                                <li><a href="#!">Second</a></li>
-                                <li><a href="#!">Third</a></li>
-                                <li><a href="#!">Fourth</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-            <li class="no-padding">
-                <ul class="collapsible collapsible-accordion">
-                    <li>
-                        <a class="collapsible-header">Old CTFs<i class="material-icons">arrow_drop_down</i></a>
-                        <div class="collapsible-body">
-                            <ul>
-                                <li><a href="#!">First</a></li>
-                                <li><a href="#!">Second</a></li>
-                                <li><a href="#!">Third</a></li>
-                                <li><a href="#!">Fourth</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-            <li class="no-padding">
-                <ul class="collapsible collapsible-accordion">
-                    <li>
-                        <a class="collapsible-header">Archived CTFs<i class="material-icons">arrow_drop_down</i></a>
-                        <div class="collapsible-body">
-                            <ul>
-                                <li><a href="#!">First</a></li>
-                                <li><a href="#!">Second</a></li>
-                                <li><a href="#!">Third</a></li>
-                                <li><a href="#!">Fourth</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-    </header>
-    <main>
-        <div class="row">
-            <div class="col s12 m6">
-                <div class="card small z-depth-5">
-                    <div class="card-content">
-                        <span class="card-title">Challenge</span>
-                        <div class="divider"></div>
-                        <p>Hack the program</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m6">
-                <div class="card large z-depth-5">
-                    <div class="card-content">
-                        <span class="card-title">Timeline</span>
-                        <div class="divider"></div>
-                        <p>We did it!</p>
-                    </div>
+{% block content %}
+    <div class="row">
+        <div class="col s12 m6 l3">
+            <div class="card z-depth-5">
+                <div class="card-content">
+                    <span class="card-title">Event 1</span>
+                    <div class="divider"></div>
+                    <a href="#!">desc</a>
                 </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col s12 m6 l2">
-                <div class="card z-depth-5">
-                    <div class="card-content">
-                        <span class="card-title">File 2</span>
-                        <div class="divider"></div>
-                        <a href="#!">file2.hack</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m6 l2">
-                <div class="card z-depth-5">
-                    <div class="card-content ">
-                        <span class="card-title">File</span>
-                        <div class="divider"></div>
-                        <a href="#!" >file.hack</a>
-                    </div>
+        <div class="col s12 m6 l3">
+            <div class="card z-depth-5">
+                <div class="card-content ">
+                    <span class="card-title">Event 2</span>
+                    <div class="divider"></div>
+                    <a href="#!" >desc</a>
                 </div>
             </div>
         </div>
-    </main>
-    <footer class="page-footer blue-grey">
-        <div class="footer-copyright">
-            <div class="container">
-                &copy;Vexillum 2017 | Made with <a class="blue-grey-text text-darken-3" href="http://materializecss.com">Materialize</a>
+        <div class="col s12 m6 l3">
+            <div class="card z-depth-5">
+                <div class="card-content ">
+                    <span class="card-title">Event 3</span>
+                    <div class="divider"></div>
+                    <a href="#!" >desc</a>
+                </div>
             </div>
         </div>
-    </footer>
-    <!--  Scripts-->
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="../static/js/materialize.js"></script>
-    <script src="../static/js/init.js"></script>
-</body>
-
-</html>
+        <div class="col s12 m6 l3">
+            <div class="card z-depth-5">
+                <div class="card-content ">
+                    <span class="card-title">Event 4</span>
+                    <div class="divider"></div>
+                    <a href="#!" >desc</a>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="row">
+        <div class="col s12 m6 l3">
+            <div class="card z-depth-5">
+                <div class="card-content">
+                    <span class="card-title">Event 5</span>
+                    <div class="divider"></div>
+                    <a href="#!">desc</a>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6 l3">
+            <div class="card z-depth-5">
+                <div class="card-content ">
+                    <span class="card-title">Event 6</span>
+                    <div class="divider"></div>
+                    <a href="#!" >desc</a>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6 l3">
+            <div class="card z-depth-5">
+                <div class="card-content ">
+                    <span class="card-title">Event 7</span>
+                    <div class="divider"></div>
+                    <a href="#!" >desc</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

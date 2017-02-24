@@ -23,12 +23,17 @@ class Event(db.Model):
     start = db.Column(db.DateTime)
     end = db.Column(db.DateTime)
     place = db.Column(db.Integer, default=None)
+    login = db.Column(db.String(128), default=None)
+    password = db.Column(db.String(128), default=None)
 
-    def __init__(self, name, url, start, end):
+    def __init__(self, name, url, start, end, login=None, password=None):
 	self.name = name
 	self.url = url
 	self.start = start
 	self.end = end
+	self.login = login
+	self.password = password
+
 
 class Challenge(db.Model):
     cid = db.Column(db.Integer, primary_key=True, autoincrement=True)
