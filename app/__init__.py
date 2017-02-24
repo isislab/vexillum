@@ -17,12 +17,12 @@ def create_app():
     app.db = db #set the app's db to db
     db.create_all() #create tables
     
-    #from utils import init_utils, init_errors
+    from utils import init_utils, init_errors
     from core import core
     from admin import admin
     from auth import auth
 
-    #init_utils(app)
+    init_utils(app)
     #init_errors(app)
     app.register_blueprint(core)
     app.register_blueprint(admin)

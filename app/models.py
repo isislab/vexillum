@@ -25,8 +25,9 @@ class Event(db.Model):
     place = db.Column(db.Integer, default=None)
     login = db.Column(db.String(128), default=None)
     password = db.Column(db.String(128), default=None)
+    archived = db.Column(db.Boolean, default=False)
 
-    def __init__(self, name, url, start, end, login=None, password=None):
+    def __init__(self, name, url, start, end, login, password):
 	self.name = name
 	self.url = url
 	self.start = start

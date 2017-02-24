@@ -7,8 +7,8 @@
     <title>Vexillum</title>
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="../static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-    <link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
     {% block style %}
     {% endblock %}
 </head>
@@ -43,10 +43,13 @@
                         <a class="collapsible-header">Current CTFs<i class="material-icons">arrow_drop_down</i></a>
                         <div class="collapsible-body">
                             <ul>
-                                <li><a href="#!">First</a></li>
-                                <li><a href="#!">Second</a></li>
-                                <li><a href="#!">Third</a></li>
-                                <li><a href="#!">Fourth</a></li>
+                            {% with events = get_current_events() %}
+                            {% if events %}
+                                {% for event in events %}
+                                <li><a href="#!">{{ event.name }}</a></li>
+                                {% endfor %}
+                            {% endif %}
+                            {% endwith %}
                             </ul>
                         </div>
                     </li>
@@ -98,8 +101,8 @@
     </footer>
     <!--  Scripts-->
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="../static/js/materialize.js"></script>
-    <script src="../static/js/init.js"></script>
+    <script src="/static/js/materialize.js"></script>
+    <script src="/static/js/init.js"></script>
     {% block scripts %}
     {% endblock %}
 </body>
