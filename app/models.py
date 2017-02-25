@@ -67,10 +67,25 @@ class File(db.Model):
     cid = db.Column(db.Integer, db.ForeignKey('challenge.cid'))
     location = db.Column(db.Text)
 
-    def __init__(self, fid, cid, location):
-	self.fid = fid
+    def __init__(self, cid, location):
 	self.cid = cid
 	self.location = location
+
+class Entry(db.Model):
+    entry_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    chal_id = db.Column(db.Integer, db.ForeignKey('challenge.cid'))
+    entry_type = db.Column(db.Integer) #0=comment, 1=code, 2=file
+    name = db.Column(db.Text)
+    content = db.Column(db.Text, default=None) #only for text and codes
+    location = db.Column(db.Text, default=None) #only for files
+
+    def __init__(self, chal_id, entry_type, name, content=None, location=None):
+	self.chal_id = chal_id
+	self.entry_type = entry_type
+	self.name = name
+	self.content = content
+	self.location = location
+
 
 class Config(db.Model):
     kid = db.Column(db.Integer, primary_key=True, autoincrement=True)
