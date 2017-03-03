@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "main.html" %}
 
 {% block style %}
 <style>
@@ -10,8 +10,9 @@
 
 
 {% block content %}
+    <h1 class="center">{{ event.name }}</h1>
 
-    {% with chals = get_chals(event_id) %}
+    {% with chals = get_chals(event.eid) %}
     {% if chals %}
     {% for row in chals %}
      <div class="row">

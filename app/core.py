@@ -17,7 +17,11 @@ def home():
 
 @core.route('/event/<event_id>')
 def event(event_id):
-    return render_template('event.html', event_id=event_id)
+    event = Event.query.filter_by(eid=event_id).first()
+    if event:
+	return render_template('event.html', event=event)
+    else:
+	return "Error"
 
 @core.route('/new_event', methods=['POST'])
 def new_event():
@@ -49,9 +53,10 @@ def new_event():
 @core.route('/challenge/<chal_id>')
 def challenge(chal_id):
     chal = Challenge.query.filter_by(cid=chal_id).first()
+    event = Event.query.filter_by(eid=chal.eid).first()
     db.session.close()
-    if chal:
-	return render_template('challenge.html', chal=chal)
+    if chal and event:
+	return render_template('challenge.html', chal=chal, event=event)
     else:
 	return "Error"
 

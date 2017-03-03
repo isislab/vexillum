@@ -19,7 +19,7 @@
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper blue-grey">
-                    <a href="#!" class="brand-logo center">Vexillum</a>
+                    <a href="/" class="brand-logo center">Vexillum</a>
                     <a href="#" data-activates="mobile-menu" class="button-collapse right"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
                         <li><a href="#!">Register</a></li>
@@ -32,61 +32,8 @@
                 </div>
             </nav>
         </div>
-        <ul id="nav-mobile" class="side-nav fixed">
-            <li>
-                <div class="userView">
-                    <a class="name blue-grey-text text-darken-4 center">Team Name</a>
-                </div>
-            </li>
-            <li class="no-padding">
-                <ul class="collapsible collapsible-accordion">
-                    <li>
-                        <a class="collapsible-header">Current CTFs<i class="material-icons">arrow_drop_down</i></a>
-                        <div class="collapsible-body">
-                            <ul>
-                            {% with events = get_current_events() %}
-                            {% if events %}
-                                {% for event in events %}
-                                <li><a href="/event/{{ event.eid }}">{{ event.name }}</a></li>
-                                {% endfor %}
-                            {% endif %}
-                            {% endwith %}
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-            <li class="no-padding">
-                <ul class="collapsible collapsible-accordion">
-                    <li>
-                        <a class="collapsible-header">Past CTFs<i class="material-icons">arrow_drop_down</i></a>
-                        <div class="collapsible-body">
-                            <ul>
-                                <li><a href="#!">First</a></li>
-                                <li><a href="#!">Second</a></li>
-                                <li><a href="#!">Third</a></li>
-                                <li><a href="#!">Fourth</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-            <li class="no-padding">
-                <ul class="collapsible collapsible-accordion">
-                    <li>
-                        <a class="collapsible-header">Archived CTFs<i class="material-icons">arrow_drop_down</i></a>
-                        <div class="collapsible-body">
-                            <ul>
-                                <li><a href="#!">First</a></li>
-                                <li><a href="#!">Second</a></li>
-                                <li><a href="#!">Third</a></li>
-                                <li><a href="#!">Fourth</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+        {% block nav%}
+        {% endblock %}
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons medium">menu</i></a>
     </header>
     <main>
