@@ -1,7 +1,7 @@
 {% extends "alt.html" %}
 
 {% block content %}
-    <div class="fixed-action-btn">
+    <div class="fixed-action-btn click-to-toggle">
     <a class="btn-floating btn-large red">
       <i class="large material-icons">mode_edit</i>
     </a>
@@ -15,25 +15,40 @@
         <div class="col s12 m6">
             <div class="card small z-depth-5">
                 <div class="card-content">
-                    <span class="card-title">{{ chal.name }}</span>
+                    <span class="card-title">{{ chal.name }} - {{ chal.value }}<span class="badge">1</span><i class="material-icons">done</i></span>
                     <div class="divider"></div>
                     <p>{{ chal.description }}</p>
                 </div>
+            </div>
+            <div class="row">
+                {% with files = get_files(chal.cid) %}
+                {% for file in files%}
+                <div class="col s6">
+                    <a href="/static/uploads/{{ file.location }}">
+                        <div class="card z-depth-5">
+                            <div class="card-content">
+                                <span class="card-title">{{ file.location }}</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+                {% endwith %}
             </div>
         </div>
         <div class="col s12 m6">
             {% with entries = get_entries(chal.cid) %}
             {% if entries %}
-            <ul class="collapsible" data-collapsible="accordion">
+            <ul class="collapsible" data-collapsible="expandable">
                 {% for e in entries %}
                   {% if e.type==0 %}
                   <li>
-                      <div class="collapsible-header"><i class="material-icons">format_quote</i>&lt;username&gt; - {{ e.name }} - {{ e.added }}</div>
+                      <div class="collapsible-header active"><i class="material-icons">format_quote</i>&lt;username&gt; - {{ e.name }} - {{ e.added }}</div>
                       <div class="collapsible-body"><span>{{ e.content }}</span></div>
                   </li>
                   {% elif e.type==1 %}
                   <li>
-                      <div class="collapsible-header"><i class="material-icons">code</i>&lt;username&gt; - {{ e.name }} - {{ e.added }}</div>
+                      <div class="collapsible-header active"><i class="material-icons">code</i>&lt;username&gt; - {{ e.name }} - {{ e.added }}</div>
                       <div class="collapsible-body">
                                 <pre>
                                   <code>{{ e.content }}</code>
@@ -42,7 +57,7 @@
                   </li>
                   {% elif e.type==2 %}
                   <li>
-                      <div class="collapsible-header"><i class="material-icons">attach_file</i>&lt;username&gt; - {{ e.name }} - {{ e.added }}</div>
+                      <div class="collapsible-header active"><i class="material-icons">attach_file</i>&lt;username&gt; - {{ e.name }} - {{ e.added }}</div>
                       <div class="collapsible-body">
                           <span>Challenge file relating to research of topic</span>
                           <div class="right">
@@ -58,22 +73,6 @@
             {% endif %}
             {% endwith %}
         </div>
-    </div>
-
-    <div class="row">
-        {% with files = get_files(chal.cid) %}
-        {% for file in files%}
-        <div class="col s12 m6 l2">
-            <a href="/static/uploads/{{ file.location }}">
-                <div class="card z-depth-5">
-                    <div class="card-content">
-                        <span class="card-title">{{ file.location }}</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-        {% endfor %}
-        {% endwith %}
     </div>
     <div id="modal1" class="modal modal-fixed-footer">
         <form action="/new_entry" method="POST">
