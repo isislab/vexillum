@@ -143,4 +143,24 @@ def new_entry():
 	    db.session.close()
 	    return redirect('/challenge/{}'.format(chal_id))
     else:
-	return "Failed to add entry"   
+	return "Failed to add entry" 
+
+@core.route("/submit_flag", methods=['POST'])
+def submit_flag():
+    if request.method=='POST' and len(request.form)==3:
+	errors = []
+	try:
+	    chal_id = request.form['cid']
+	    flag = request.form['flag']
+	    chal = Challenge.query.filter_by(cid=chal_id).first()
+	except:
+	    errors.append("Error: one or more required fields missing or invalid")
+
+	if chal and len(errors)==0:
+	    chal.flag = flag
+	    chal.solved = True
+	    db.session.commit()
+	    db.session.close()
+	    return redirect("/challenge/{}".format(chal_id))
+	else:
+	    return jsonify(errors)

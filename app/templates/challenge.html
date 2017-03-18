@@ -15,10 +15,35 @@
         <div class="col s12 m6">
             <div class="card small z-depth-5">
                 <div class="card-content">
-                    <span class="card-title">{{ chal.name }} - {{ chal.value }}<span class="badge">1</span><i class="material-icons">done</i></span>
+                    <span class="card-title">{{ chal.name }} - {{ chal.value }}
+                      <span class="new badge" data-badge-caption="working">1</span>
+                      {% if chal.solved %}
+                      <i class="material-icons">done</i>
+                      {% endif %}
+                    </span>
                     <div class="divider"></div>
+                    <div class="row">
                     <p>{{ chal.description }}</p>
+                    </div>
                 </div>
+                <div class="card-action">
+                  <form action="/submit_flag" method="POST">
+                    <input type="hidden" name="cid" value="{{ chal.cid }}">
+                    <div class="input-field col s9">
+                    {% if chal.flag %}
+                      <input id="icon_prefix" type="text" placeholder="Flag" class="validate" name="flag" value="{{ chal.flag }}" required>
+                      </div>
+                    <div class="col s3">
+                      <button class="btn waves-effect waves-light" type="submit" name="action">Solved</button>
+                    {% else %}
+                      <input id="icon_prefix" type="text" placeholder="Flag" class="validate" name="flag" required>
+                      </div>
+                    <div class="col s3">
+                      <button class="btn waves-effect waves-light" type="submit" name="action">Solve</button>
+                    {% endif %}
+                    </div>
+                  </form>
+                </div> 
             </div>
             <div class="row">
                 {% with files = get_files(chal.cid) %}

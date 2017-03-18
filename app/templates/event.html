@@ -10,9 +10,11 @@
 
 
 {% block content %}
-    <h1 class="page-title">{{ event.name }}</h1>
-    <div class="clock" style="margin:2em;"></div>
-    <div class="divider"></div>
+    <div class="container">
+      <h1 class="page-title">{{ event.name }}<a><i class="material-icons prefix">mode_edit</i></a></h1>
+      <div class="clock" style="margin:2em;"></div>
+      <div class="divider"></div>
+    </div>
 
     {% with chals = get_chals(event.eid) %}
     {% if chals %}
