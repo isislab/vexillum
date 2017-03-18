@@ -1,7 +1,7 @@
 from flask import session, render_template
 from models import db, Event, Challenge, Entry, File
 from werkzeug import secure_filename
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 import time
 import os
@@ -31,11 +31,25 @@ def get_files(cid):
     db.session.close()
     return files
 
+def tdelta2str(delta):
+    if isinstance(delta, timedelta):
+	if delta.seconds < 60:
+	    return "{} seconds ago".format(delta.seconds)
+	elif delta.seconds/60 < 60:
+	    return "{} minutes ago".format(delta.seconds/60)
+	elif delta.seconds/60/60 < 24:
+	    return "{} hours ago".format(delta.seconds/60/60)
+	else:
+	    return "{} days ago".format(delta.seconds/60/60/24)
+    return None
+
 def get_entries(cid):
-    comments = Entry.query.filter_by(chal_id=cid).filter_by(entry_type=0).all()
-    code = Entry.query.filter_by(chal_id=cid).filter_by(entry_type=1).all()
-    files = Entry.query.filter_by(chal_id=cid).filter_by(entry_type=2).all()
-    return {"comments": comments, "code": code, "files": files}
+    #comments = Entry.query.filter_by(chal_id=cid).filter_by(entry_type=0).all()
+    #code = Entry.query.filter_by(chal_id=cid).filter_by(entry_type=1).all()
+    #files = Entry.query.filter_by(chal_id=cid).filter_by(entry_type=2).all()
+    #return {"comments": comments, "code": code, "files": files}
+    entries = Entry.query.filter_by(chal_id=cid).order_by(Entry.added)
+    return [ {"name": e.name, "type": e.entry_type, "content": e.content, "location": e.location, "added": tdelta2str(datetime.now()-e.added)} for e in entries]
 
 def get_chals(eid):
     chals = Challenge.query.filter_by(eid=eid).all()

@@ -9,7 +9,7 @@ core = Blueprint('core', __name__)
 
 @core.route('/test')
 def test():
-    return str(get_files(1))
+    return jsonify(get_entries(1))
 
 @core.route('/', methods=['GET','POST'])
 def home():
@@ -83,19 +83,20 @@ def new_challenge():
 	    cid = new_chal.cid
 	    #try:
 	    files = request.files.getlist('file[]')
-	    for f in files:
-	        if f and len(f.filename) > 0:
-	            #try:
-	            upload_file(f)
-	            new_file = File(cid, f.filename)
-	    	    db.session.add(new_file)
-	    	    db.session.commit()
-	            #except:
-	        	#errors.append("Something went wrong")
-	        else:
-	            errors.append("Error: something wrong with the file or filename")
-	    #except:
-	    #    errors.append("No files recieved")
+	    if files and len(files) > 0:
+	    	for f in files:
+	    	    if f and len(f.filename) > 0:
+	    	        #try:
+	    	        upload_file(f)
+	    	        new_file = File(cid, f.filename)
+	    		db.session.add(new_file)
+	    		db.session.commit()
+	    	        #except:
+	    	    	#errors.append("Something went wrong")
+	    	    else:
+	    	        errors.append("Error: something wrong with the file or filename")
+	    	#except:
+	    	#    errors.append("No files recieved")
 
 	    db.session.close()
 	    return redirect('/event/{}'.format(eid))

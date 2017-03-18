@@ -25,34 +25,34 @@
             {% with entries = get_entries(chal.cid) %}
             {% if entries %}
             <ul class="collapsible" data-collapsible="accordion">
-                {% for code in entries['code'] %}
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">code</i>{{ code.name }}</div>
-                    <div class="collapsible-body">
-                              <pre>
-                                <code>{{ code.content }}</code>
-                              </pre>
-                    </div>
-                </li>
-                {% endfor %}
-                {% for comment in entries['comments'] %}
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">format_quote</i>{{ comment.name }}</div>
-                    <div class="collapsible-body"><span>{{ comment.content }}</span></div>
-                </li>
-                {% endfor %}
-                {% for file in entries['files'] %}
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">attach_file</i>{{ file.name }}</div>
-                    <div class="collapsible-body">
-                        <span>Challenge file relating to research of topic</span>
-                        <div class="right">
-                            <a class="btn blue" href="/static/uploads/{{ file.location }}">
-                              <i class="material-icons">attach_file</i>
-                            </a>
-                        </div>
-                    </div>
-                </li>
+                {% for e in entries %}
+                  {% if e.type==0 %}
+                  <li>
+                      <div class="collapsible-header"><i class="material-icons">format_quote</i>&lt;username&gt; - {{ e.name }} - {{ e.added }}</div>
+                      <div class="collapsible-body"><span>{{ e.content }}</span></div>
+                  </li>
+                  {% elif e.type==1 %}
+                  <li>
+                      <div class="collapsible-header"><i class="material-icons">code</i>&lt;username&gt; - {{ e.name }} - {{ e.added }}</div>
+                      <div class="collapsible-body">
+                                <pre>
+                                  <code>{{ e.content }}</code>
+                                </pre>
+                      </div>
+                  </li>
+                  {% elif e.type==2 %}
+                  <li>
+                      <div class="collapsible-header"><i class="material-icons">attach_file</i>&lt;username&gt; - {{ e.name }} - {{ e.added }}</div>
+                      <div class="collapsible-body">
+                          <span>Challenge file relating to research of topic</span>
+                          <div class="right">
+                              <a class="btn blue" href="/static/uploads/{{ e.location }}">
+                                <i class="material-icons">attach_file</i>
+                              </a>
+                          </div>
+                      </div>
+                  </li>
+                  {% endif %}
                 {% endfor %}
             </ul>
             {% endif %}

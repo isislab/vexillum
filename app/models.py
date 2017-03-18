@@ -74,6 +74,7 @@ class File(db.Model):
 class Entry(db.Model):
     entry_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     chal_id = db.Column(db.Integer, db.ForeignKey('challenge.cid'))
+    added = db.Column(db.DateTime, default=datetime.datetime.now())
     entry_type = db.Column(db.Integer) #0=comment, 1=code, 2=file
     name = db.Column(db.Text)
     content = db.Column(db.Text, default=None) #only for text and codes
