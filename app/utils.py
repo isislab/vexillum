@@ -12,6 +12,7 @@ def logged_in():
 def init_utils(app):
     #app.jinja_env.globals.update(logged_in=logged_in)
     app.jinja_env.globals.update(get_current_events=get_current_events)
+    app.jinja_env.globals.update(get_past_events=get_past_events)
     app.jinja_env.globals.update(upcoming_events=upcoming_events)
     app.jinja_env.globals.update(get_chals=get_chals)
     app.jinja_env.globals.update(get_entries=get_entries)
@@ -57,6 +58,9 @@ def get_chals(eid):
 
 def get_current_events():
     return Event.query.filter(Event.end >= datetime.now()).all()
+
+def get_past_events():
+    return Event.query.filter(Event.end < datetime.now()).all()
 
 def upcoming_events():
 #Get the upcoming events for the next month

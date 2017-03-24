@@ -31,10 +31,13 @@
                         <a class="collapsible-header">Past CTFs<i class="material-icons">arrow_drop_down</i></a>
                         <div class="collapsible-body">
                             <ul>
-                                <li><a href="#!">First</a></li>
-                                <li><a href="#!">Second</a></li>
-                                <li><a href="#!">Third</a></li>
-                                <li><a href="#!">Fourth</a></li>
+                            {% with events = get_past_events() %}
+                            {% if events %}
+                                {% for event in events %}
+                                <li><a href="/event/{{ event.eid }}">{{ event.name }}</a></li>
+                                {% endfor %}
+                            {% endif %}
+                            {% endwith %}
                             </ul>
                         </div>
                     </li>

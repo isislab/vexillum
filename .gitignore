@@ -93,3 +93,4 @@ ENV/
 
 #uploads
 app/static/uploads/
+test/
