@@ -1,19 +1,32 @@
 {% extends "main.html" %}
 
 {% block content %}
+    
+  <div class="main">
 
+  <div>
+    <h3 class="page-title" style="margin-left: 2%; float: left; margin-bottom: 0px;">Team Name</h3>
+    <h3 class="page-title right" style="margin-right: 2%; float: right; margin-bottom: 0px;">Global Rank: 999</h3>
+  </div>
+  <div class="row" style="margin-bottom: 0px;"></div>
+  <div class="divider"></div>
+  <div class="row">
+    <h4 class="center">Current CTFs</h4>
     {% with events = upcoming_events() %}
     {% if events %}
     {% for row in events %}
      <div class="row">
         {% for event in row %}
         <div class="col s12 m6 l3">
-            <div class="card z-depth-5">
+            <div class="card z-depth-5" style="">
                 <div class="card-content">
                     <span class="card-title">{{ event["name"] }}</span>
-                    <div class="divider"></div>
-                    <a href="{{ event['url'] }}" target="_blank">Sign Up</a>
                 </div>
+                <div class="card-action center">
+                  <form action="/working" method="POST">
+                    <a class="blue-text" href="{{ event['url'] }}" target="_blank">View</a>
+                  </form>
+                </div> 
             </div>
         </div>
         {% endfor %}
@@ -21,6 +34,63 @@
     {% endfor %}
     {% endif %}
     {% endwith %}
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="row">
+    <div class="col s12 m12 l6">
+      <h4 class="center">Past CTFs</h4>
+      {% with events = upcoming_events() %}
+      {% if events %}
+      {% for row in events %}
+       <div class="row">
+          {% for event in row %}
+          <div class="col s12 m6 l6">
+              <div class="card z-depth-5" style="">
+                  <div class="card-content">
+                      <span class="card-title">{{ event["name"] }}</span>
+                  </div>
+                  <div class="card-action center">
+                    <form action="/working" method="POST">
+                      <a class="blue-text" href="{{ event['url'] }}" target="_blank">View</a>
+                    </form>
+                  </div> 
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+    </div>
+    <div class="col s12 m12 l6">
+      <h4 class="center">Upcoming CTFs</h4>
+      {% with events = upcoming_events() %}
+      {% if events %}
+      {% for row in events %}
+       <div class="row">
+          {% for event in row %}
+          <div class="col s12 m6 l6">
+              <div class="card z-depth-5" style="">
+                  <div class="card-content">
+                      <span class="card-title">{{ event["name"] }}</span>
+                  </div>
+                  <div class="card-action center">
+                    <form action="/working" method="POST">
+                      <a class="blue-text" href="{{ event['url'] }}" target="_blank">Sign Up</a>
+                    </form>
+                  </div> 
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+    </div>
+  </div>
+  </div>
 
 
     <div data-target="modal1" class="fixed-action-btn tooltipped" data-position="top" data-tooltip="Create Event">

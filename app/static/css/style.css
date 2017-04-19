@@ -37,7 +37,9 @@ main {
 .side-nav .userView .name {
 	font-size: 24px;
 }
-
+.side-nav{
+  height: 100%
+}
 @media only screen and (min-width: 601px){
   .side-nav {
 	top: 64px;
@@ -47,4 +49,11 @@ main {
 
 .page-title{
   margin: -2.9rem 0 1.68rem 0;
+}
+
+pre {
+  margin: 0px;
+}
+.indicator{
+  background-color: #607d8b !important; 
 }

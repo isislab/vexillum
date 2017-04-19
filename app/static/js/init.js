@@ -9,6 +9,7 @@
         $('.modal').modal();
         $('select').material_select();
         $('.collapsible').collapsible();
+        $('#modal4').click(updatetext());
         var clock;
 
         clock = $('.clock').FlipClock({

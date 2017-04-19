@@ -1,7 +1,7 @@
 {% extends "alt.html" %}
 
 {% block content %}
-    <div class="fixed-action-btn click-to-toggle">
+    <div class="fixed-action-btn">
     <a class="btn-floating btn-large red">
       <i class="large material-icons">mode_edit</i>
     </a>
@@ -13,55 +13,103 @@
     </div>
     <div class="row">
         <div class="col s12 m6">
-            <div class="card small z-depth-5">
-                <div class="card-content">
-                    <span class="card-title">{{ chal.name }} - {{ chal.value }}
-                      <span class="new badge" data-badge-caption="working">1</span>
-                      {% if chal.solved %}
-                      <i class="material-icons">done</i>
-                      {% endif %}
-                    </span>
-                    <div class="divider"></div>
+          <div class="card ">
+            <div class="card-content" style="padding-bottom: 0px;">
+              <span class="card-title"><a id="modal4" data-target="modal4" href=""><i class="material-icons">mode_edit</i></a>{{ chal.name }} - {{ chal.value }}
+                <span class="new badge" data-badge-caption="working">1</span>
+                {% if chal.solved %}
+                <i class="material-icons">done</i>
+                {% endif %}
+              </span>
+            </div>
+            <div class="divider"></div>
+            <div class="card-tabs">
+              <ul class="tabs tabs-fixed-width">
+                <li class="tab">
+                  <a class="active blue-grey-text" href="#tab1">Description</a>
+                </li>
+                <li class="tab">
+                  <a class="blue-grey-text" href="#tab2">Collaborators</a>
+                </li>
+              </ul>
+            </div>
+            <div class="card-content">
+              <div id="tab1">
                     <div class="row">
                     <p>{{ chal.description }}</p>
                     </div>
+                    <div class="card-action" style="margin-bottom: 24px;">
+                      <form action="/submit_flag" method="POST">
+                        <input type="hidden" name="cid" value="{{ chal.cid }}">
+                          <div class="input-field col s9" style="margin-top: 0px;">
+                          {% if chal.flag %}
+                            <input id="icon_prefix" type="text" placeholder="Flag" class="validate" name="flag" value="{{ chal.flag }}" required>
+                          </div>
+                          <div class="col s3">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Solved</button>
+                          {% else %}
+                            <input id="icon_prefix" type="text" placeholder="Flag" class="validate" name="flag" required>
+                          </div>
+                          <div class="col s3">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Solve</button>
+                          {% endif %}
+                          </div>
+                      </form>
+                    </div> 
+              </div>
+              <div id="tab2">
+                <div class="row">
+                  <ul class="collection">
+                    <li class="collection-item"><div>Ghost<a href="#!" class="secondary-content"><i class="material-icons">perm_identity</i></a></div></li>
+                    <li class="collection-item"><div>Josh<a href="#!" class="secondary-content"><i class="material-icons">perm_identity</i></a></div></li>
+                    <li class="collection-item"><div>Oskar<a href="#!" class="secondary-content"><i class="material-icons">perm_identity</i></a></div></li>
+                  </ul>
                 </div>
                 <div class="card-action">
-                  <form action="/submit_flag" method="POST">
-                    <input type="hidden" name="cid" value="{{ chal.cid }}">
-                    <div class="input-field col s9">
-                    {% if chal.flag %}
-                      <input id="icon_prefix" type="text" placeholder="Flag" class="validate" name="flag" value="{{ chal.flag }}" required>
-                      </div>
-                    <div class="col s3">
-                      <button class="btn waves-effect waves-light" type="submit" name="action">Solved</button>
-                    {% else %}
-                      <input id="icon_prefix" type="text" placeholder="Flag" class="validate" name="flag" required>
-                      </div>
-                    <div class="col s3">
-                      <button class="btn waves-effect waves-light" type="submit" name="action">Solve</button>
-                    {% endif %}
-                    </div>
+                  <form action="/working" method="POST">
+                    <a class="waves-effect waves-light btn">Working</a>
+                    <a class="waves-effect waves-light btn right">No longer working</a>
                   </form>
                 </div> 
+              </div>
             </div>
-            <div class="row">
+            </div>
+            </div>
+            <div class="col s12 m6">
                 {% with files = get_files(chal.cid) %}
                 {% for file in files%}
                 <div class="col s6">
                     <a href="/static/uploads/{{ file.location }}">
-                        <div class="card z-depth-5">
+                        <div class="card ">
                             <div class="card-content">
-                                <span class="card-title">{{ file.location }}</span>
+                                <span class="card-title truncate">{{ file.location }}</span>
                             </div>
                         </div>
                     </a>
                 </div>
                 {% endfor %}
                 {% endwith %}
+                {% with entries = get_entries(chal.cid) %}
+                {% if entries %}
+                  {% for e in entries %}
+                    {% if e.type==2 %}
+                    <div class="col s6">
+                      <a href="/static/uploads/{{ e.location }}">
+                        <div class="card ">
+                          <div class="card-content">
+                            <span class="card-title truncate">{{ e.location }}</span>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% endwith %}
             </div>
-        </div>
-        <div class="col s12 m6">
+      </div>
+      <div class="row">
+        <div class="col s12">
             {% with entries = get_entries(chal.cid) %}
             {% if entries %}
             <ul class="collapsible" data-collapsible="expandable">
@@ -69,28 +117,15 @@
                   {% if e.type==0 %}
                   <li>
                       <div class="collapsible-header active"><i class="material-icons">format_quote</i>&lt;username&gt; - {{ e.name }} - {{ e.added }}</div>
-                      <div class="collapsible-body"><span>{{ e.content }}</span></div>
+                      <div class="collapsible-body grey lighten-3"><span>{{ e.content }}</span></div>
                   </li>
                   {% elif e.type==1 %}
                   <li>
                       <div class="collapsible-header active"><i class="material-icons">code</i>&lt;username&gt; - {{ e.name }} - {{ e.added }}</div>
-                      <div class="collapsible-body">
-                                <pre>
-                                  <code>{{ e.content }}</code>
-                                </pre>
+                      <div class="collapsible-body grey lighten-4">
+                                <pre><code>{{ e.content }}</code></pre>
                       </div>
                   </li>
-                  {% elif e.type==2 %}
-                  <li>
-                      <div class="collapsible-header active"><i class="material-icons">attach_file</i>&lt;username&gt; - {{ e.name }} - {{ e.added }}</div>
-                      <div class="collapsible-body">
-                          <span>Challenge file relating to research of topic</span>
-                          <div class="right">
-                              <a class="btn blue" href="/static/uploads/{{ e.location }}">
-                                <i class="material-icons">attach_file</i>
-                              </a>
-                          </div>
-                      </div>
                   </li>
                   {% endif %}
                 {% endfor %}
@@ -202,4 +237,70 @@
             </div>
         </form>
     </div>
+    <!-- Modal Structure -->
+    <div id="modal4" class="modal modal-fixed-footer">
+        <form action="/update_challenge" enctype="multipart/form-data" method="POST">
+            <div class="modal-content">
+                <h4>Edit Challenge</h4>
+                <div class="row">
+                        
+                  <div class="row">
+                    <input type="hidden" name="eid" value="{{ event.eid }}">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <i class="material-icons prefix">mode_edit</i>
+                          <input value="{{ chal.name }}" id="icon_prefix" type="text" class="validate" name="name">
+                          <label class="active" for="icon_prefix">Challenge Name</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s6">
+                          <i class="material-icons prefix">toc</i>
+                          <input value="{{ chal.category }}" id="icon_prefix" type="text" class="validate" name="category">
+                          <label class="active" for="icon_prefix">Category</label>
+                        </div>
+                        <div class="input-field col s6">
+                          <i class="material-icons prefix">star</i>
+                          <input value="{{ chal.value }}" id="icon_prefix" type="number" class="validate" name="value">
+                          <label class="active" for="icon_prefix">Value</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s12">
+                            <textarea id="textarea4" class="materialize-textarea" name="description"></textarea>
+                            <label class="active" for="textarea4">Description</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="file-field input-field">
+                          <div class="btn">
+                            <span>Files</span>
+                            <input type="file" name="file[]" multiple="multiple">
+                          </div>
+                          <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" >
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Update
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function updatetext() {
+      var string = "{{ chal.description }}"
+      $('#textarea4').val(string);
+      $('#textarea4').trigger('autoresize');    
+    }
+</script>
 {% endblock %}
