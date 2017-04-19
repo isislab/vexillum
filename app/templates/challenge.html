@@ -76,36 +76,15 @@
             </div>
             </div>
             <div class="col s12 m6">
-                {% with files = get_files(chal.cid) %}
+            {% with files = get_files(chal.cid) %}
+              {% if files %}
+              <div class="collection z-depth-1">
                 {% for file in files%}
-                <div class="col s6">
-                    <a href="/static/uploads/{{ file.location }}">
-                        <div class="card ">
-                            <div class="card-content">
-                                <span class="card-title truncate">{{ file.location }}</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                  <a href="/static/uploads/{{ file.location }}" class="collection-item">{{ file.location }}</a>
                 {% endfor %}
-                {% endwith %}
-                {% with entries = get_entries(chal.cid) %}
-                {% if entries %}
-                  {% for e in entries %}
-                    {% if e.type==2 %}
-                    <div class="col s6">
-                      <a href="/static/uploads/{{ e.location }}">
-                        <div class="card ">
-                          <div class="card-content">
-                            <span class="card-title truncate">{{ e.location }}</span>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    {% endif %}
-                  {% endfor %}
-                {% endif %}
-                {% endwith %}
+              </div>
+              {% endif %}
+            {% endwith %}
             </div>
       </div>
       <div class="row">
@@ -117,7 +96,7 @@
                   {% if e.type==0 %}
                   <li>
                       <div class="collapsible-header active"><i class="material-icons">format_quote</i>&lt;username&gt; - {{ e.name }} - {{ e.added }}</div>
-                      <div class="collapsible-body grey lighten-3"><span>{{ e.content }}</span></div>
+                      <div class="collapsible-body grey lighten-4"><span>{{ e.content }}</span></div>
                   </li>
                   {% elif e.type==1 %}
                   <li>
@@ -126,6 +105,17 @@
                                 <pre><code>{{ e.content }}</code></pre>
                       </div>
                   </li>
+                   {% elif e.type==2 %}
+                  <li>
+                  <div class="collapsible-header active"><i class="material-icons">attach_file</i>&lt;username&gt; - {{ e.name }} - {{ e.added }}</div>
+                    <div class="collapsible-body grey lighten-4">
+                      <span>Challenge file relating to research of topic</span>
+                      <div class="right">
+                          <a class="btn blue" href="/static/uploads/{{ e.location }}">
+                            <i class="material-icons">attach_file</i>
+                          </a>
+                      </div>
+                    </div>
                   </li>
                   {% endif %}
                 {% endfor %}

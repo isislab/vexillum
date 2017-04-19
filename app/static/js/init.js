@@ -1,5 +1,4 @@
 (function($) {
-    var clock
     $(function() {
 
         $('.button-collapse').sideNav();
@@ -9,16 +8,12 @@
         $('.modal').modal();
         $('select').material_select();
         $('.collapsible').collapsible();
-        $('#modal4').click(updatetext());
-        var clock;
+        if (typeof updatetext !== 'undefined') {
+        	$('#modal4').click(updatetext());
+    	}
+    	if (typeof clockinit !== 'undefined') {
+        	clockinit();
+        }
 
-        clock = $('.clock').FlipClock({
-            clockFace: 'DailyCounter',
-            autoStart: false,
-        });
-
-        clock.setTime(220880);
-        clock.setCountdown(true);
-        clock.start();
     }); // end of document ready
 })(jQuery); // end of jQuery name space

@@ -10,10 +10,12 @@
 
 
 {% block content %}
-    <div class="container">
-      <h2 class="page-title center" style="margin-bottom: 0px">{{ event.name }}<a data-target="modal2" href=""><i class="material-icons prefix">mode_edit</i></a></h2>
-      <div class="divider" style="margin-bottom: 1em"></div>
+    <h5 class="page-title" style="margin-left: 2%; float: left; margin-bottom: 0px;">{{ event.name }}<a data-target="modal2" href=""><i class="material-icons prefix">mode_edit</i></a></h5>
+    <h5 class="page-title right" style="margin-right: 2%; float: right; margin-bottom: 0px;">User:{{ event.login }} - Pass:{{ event.password }}</h5>
+    <div class="row" style="margin-bottom: 0px">
+      <h5 class="clock-count center" style="margin-bottom: 0px; margin-top: 0px;">&nbsp;</h5>
     </div>
+    <div class="divider" style="margin-bottom: 1em"></div>
 
     {% with chals = get_chals(event.eid) %}
     {% if chals %}
@@ -123,12 +125,12 @@
                       <div class="row">
                         <div class="input-field col s6">
                           <i class="material-icons prefix">play_arrow</i>
-                          <input value="{{ event.start }}" id="icon_prefix" type="datetime-local" class="validate" name="start" required>
+                          <input value="" id="icon_prefix" type="datetime-local" class="validate timestart" name="start" required>
                           <label class="active" for="icon_prefix"></label>
                         </div>
                         <div class="input-field col s6">
                           <i class="material-icons prefix">stop</i>
-                          <input value="{{ event.end }}" id="icon_telephone" type="datetime-local" class="validate" name="end" required>
+                          <input value="" id="icon_telephone" type="datetime-local" class="validate timeend" name="end" required>
                           <label class="active" for="icon_telephone"></label>
                         </div>
                       </div>
@@ -160,14 +162,62 @@
 
 {% block scripts %}
 <script>
-    $(document).onload({
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          Materialize.toast('{{ message }}', 4000);
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-    });
+  function clockinit() {
+
+    var start = "{{ event.start }}";
+    var index = 10;
+    start = start.substr(0, index) + 'T' + start.substr(index + 1);
+    $('.timestart').val(start);
+    var end = "{{ event.end }}";
+    end = end.substr(0, index) + 'T' + end.substr(index + 1);
+    $('.timeend').val(end);
+
+    var countdowntime =  new Date(end);
+
+    if (countdowntime < 1){
+      countdowntime = 0;
+    }
+
+
+    // Set the date we're counting down to
+    var countDownDate = countdowntime;
+
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+
+      // Get todays date and time
+      var now = new Date();
+
+      // Find the distance between now an the count down date
+      var distance = countDownDate - now;
+
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      // Display the result in the element with id="demo"
+      $('.clock-count').text(days + ":" + hours + ":"
+      + minutes + ":" + seconds);
+
+      // If the count down is finished, write some text 
+      if (distance < 0) {
+        clearInterval(x);
+        $('.clock-count').text("CTF Over!");
+      }
+    }, 1000);
+  }
+</script>
+<script>
+  $(document).onload({
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        Materialize.toast('{{ message }}', 4000);
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  });
 </script>
 {% endblock %}

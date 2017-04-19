@@ -15,6 +15,14 @@ def test():
 def home():
     return render_template('index.html')
 
+@core.route('/login', methods=['GET','POST'])
+def login():
+    return render_template('login.html')
+
+@core.route('/register', methods=['GET','POST'])
+def register():
+    return render_template('register.html')
+
 @core.route('/event/<event_id>')
 def event(event_id):
     event = Event.query.filter_by(eid=event_id).first()
