@@ -54,7 +54,7 @@ def get_entries(cid):
 
 def get_chals(eid):
     chals = Challenge.query.filter_by(eid=eid).all()
-    return [chals[i:i+6] for i in range(0, len(chals), 6)]
+    return [chals[i:i+4] for i in range(0, len(chals), 4)]
 
 def get_current_events():
     return Event.query.filter(Event.end >= datetime.now()).all()
@@ -67,7 +67,7 @@ def upcoming_events():
     now = int(time.time())
     events = requests.get('https://ctftime.org/api/v1/events/?limit={}&start={}&finish={}'.format(8, now, now + 2592000)).json()
     info = [{"name": event["title"], "url": event["url"]} for event in events]
-    return [info[i:i+4] for i in range(0, len(info), 4)]
+    return [info[i:i+2] for i in range(0, len(info), 2)]
 
 def upload_file(f):
     if not os.path.exists('app/static/uploads'):

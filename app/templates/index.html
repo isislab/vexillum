@@ -7,14 +7,13 @@
   </div>
   <div class="row" style="margin-bottom: 0px;"></div>
   <div class="divider"></div>
-  
+
   <div class="row">
     <h4 class="center">Current CTFs</h4>
-    {% with events = upcoming_events() %}
+    {% with events = get_current_events() %}
     {% if events %}
-    {% for row in events %}
      <div class="row">
-        {% for event in row %}
+        {% for event in events %}
         <div class="col s12 m6 l3">
             <div class="card z-depth-1" style="">
                 <div class="card-content">
@@ -22,14 +21,13 @@
                 </div>
                 <div class="card-action center">
                   <form action="/working" method="POST">
-                    <a class="blue-text" href="{{ event['url'] }}" target="_blank">View</a>
+                    <a class="teal-text lighten-1" href="/event/{{ event.eid }}">View</a>
                   </form>
                 </div> 
             </div>
         </div>
         {% endfor %}
     </div>
-    {% endfor %}
     {% endif %}
     {% endwith %}
   </div>
@@ -39,13 +37,11 @@
   <div class="row">
     <div class="col s12 m12 l6">
       <h4 class="center">Past CTFs</h4>
-      {% with events = upcoming_events() %}
+      {% with events = get_past_events() %}
       {% if events %}
           <div class="collection z-depth-1">
-          {% for row in events %}
-          {% for event in row %}
-              <a href="#!" class="collection-item"><span class="badge">1st Place</span>{{ event["name"] }}</a>
-          {% endfor %}
+          {% for event in events %}
+              <a href="/event/{{ event.eid }}" class="collection-item"><span class="badge">1st Place</span>{{ event["name"] }}</a>
           {% endfor %}
           </div>
       {% endif %}
@@ -55,24 +51,13 @@
       <h4 class="center">Upcoming CTFs</h4>
       {% with events = upcoming_events() %}
       {% if events %}
-      {% for row in events %}
-       <div class="row">
+          <div class="collection z-depth-1">
+          {% for row in events %}
           {% for event in row %}
-          <div class="col s12 m6 l6">
-              <div class="card z-depth-1" style="">
-                  <div class="card-content">
-                      <span class="card-title">{{ event["name"] }}</span>
-                  </div>
-                  <div class="card-action center">
-                    <form action="/working" method="POST">
-                      <a class="blue-text" href="{{ event['url'] }}" target="_blank">Sign Up</a>
-                    </form>
-                  </div> 
-              </div>
-          </div>
+              <a href="{{ event['url'] }}" target="_blank" class="collection-item center">{{ event["name"] }}</a>
           {% endfor %}
-      </div>
-      {% endfor %}
+          {% endfor %}
+          </div>
       {% endif %}
       {% endwith %}
     </div>
@@ -86,6 +71,62 @@
     <!-- Modal Structure -->
     <div id="modal1" class="modal modal-fixed-footer">
         <form action="/new_event" method="POST">
+            <div class="modal-content">
+                <h4>Create An Event</h4>
+                <div class="row">
+                        
+                    <div class="row">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <i class="material-icons prefix">mode_edit</i>
+                          <input id="icon_prefix" type="text" class="validate" name="name" required>
+                          <label for="icon_prefix">Event Name</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <i class="material-icons prefix">language</i>
+                          <input id="icon_prefix" type="text" class="validate" name="url" required>
+                          <label for="icon_prefix">URL</label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s6">
+                          <i class="material-icons prefix">play_arrow</i>
+                          <input id="icon_prefix" type="datetime-local" class="validate" name="start" required>
+                          <label for="icon_prefix"></label>
+                        </div>
+                        <div class="input-field col s6">
+                          <i class="material-icons prefix">stop</i>
+                          <input id="icon_telephone" type="datetime-local" class="validate" name="end" required>
+                          <label for="icon_telephone"></label>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s6">
+                          <i class="material-icons prefix">account_circle</i>
+                          <input id="icon_prefix" type="text" class="validate" name="login" required>
+                          <label for="icon_prefix">Login</label>
+                        </div>
+                        <div class="input-field col s6">
+                          <i class="material-icons prefix">vpn_key</i>
+                          <input id="icon_telephone" type="text" class="validate" name="password" required>
+                          <label for="icon_telephone">Password</label>
+                        </div>
+                      </div>
+                    </div>
+                
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </form>
+    </div>
+<div id="modal2" class="modal modal-fixed-footer">
+        <form action="/working" method="POST">
             <div class="modal-content">
                 <h4>Create An Event</h4>
                 <div class="row">

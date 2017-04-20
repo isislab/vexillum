@@ -11,7 +11,7 @@
 
 {% block content %}
     <h5 class="page-title" style="margin-left: 2%; float: left; margin-bottom: 0px;">{{ event.name }}<a data-target="modal2" href=""><i class="material-icons prefix">mode_edit</i></a></h5>
-    <h5 class="page-title right" style="margin-right: 2%; float: right; margin-bottom: 0px;">User:{{ event.login }} - Pass:{{ event.password }}</h5>
+    <h5 class="page-title right" style="margin-right: 2%; float: right; margin-bottom: 0px;">Login:{{ event.login }} - Password:{{ event.password }}</h5>
     <div class="row" style="margin-bottom: 0px">
       <h5 class="clock-count center" style="margin-bottom: 0px; margin-top: 0px;">&nbsp;</h5>
     </div>
@@ -25,9 +25,22 @@
         <div class="col s12 m6 l3">
           <a class="chal" href="/challenge/{{ chal.cid }}">
             <div class="card ">
+                {% if chal.solved %}
+                <div class="card-content green lighten-3">
+                {% else %}
                 <div class="card-content">
-                    <span class="card-title truncate">{{ chal.name }}</span>
+                {% endif %}
+                    <span class="card-title truncate" style="display: inline-block;">
+                    {{ chal.name }}
+                    {% if chal.solved %} &nbsp;
+                    <i class="material-icons green-text text-darken-3" style="float: right;">done</i>
+                    {% endif %}
+                    </span>
+                    {% if chal.solved %}
+                    <div class="divider green"></div>
+                    {% else %}
                     <div class="divider"></div>
+                    {% endif %}
                     <span>{{ chal.category }} - {{ chal.value }}</span>
                 </div>
             </div>

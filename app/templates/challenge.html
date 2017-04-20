@@ -18,7 +18,7 @@
               <span class="card-title"><a id="modal4" data-target="modal4" href=""><i class="material-icons">mode_edit</i></a>{{ chal.name }} - {{ chal.value }}
                 <span class="new badge" data-badge-caption="working">1</span>
                 {% if chal.solved %}
-                <i class="material-icons">done</i>
+                <i class="material-icons green-text">done</i>
                 {% endif %}
               </span>
             </div>
@@ -80,7 +80,7 @@
               {% if files %}
               <div class="collection z-depth-1">
                 {% for file in files%}
-                  <a href="/static/uploads/{{ file.location }}" class="collection-item">{{ file.location }}</a>
+                  <a href="/static/uploads/{{ file.location }}" class="collection-item" target="_blank">{{ file.location }}</a>
                 {% endfor %}
               </div>
               {% endif %}
@@ -111,7 +111,7 @@
                     <div class="collapsible-body grey lighten-4">
                       <span>Challenge file relating to research of topic</span>
                       <div class="right">
-                          <a class="btn blue" href="/static/uploads/{{ e.location }}">
+                          <a class="btn blue" href="/static/uploads/{{ e.location }}" target="_blank">
                             <i class="material-icons">attach_file</i>
                           </a>
                       </div>

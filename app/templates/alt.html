@@ -17,7 +17,12 @@
                             {% if chals %}
                             {% for row in chals %}
                                 {% for chal in row %}
-                                <li><a href="/challenge/{{ chal.cid }}">{{ chal.name }}</a></li>
+                                <li>
+                                    <a href="/challenge/{{ chal.cid }}">{{ chal.name }} {% if chal.solved %}
+                                    <i class="material-icons right green-text">done</i>
+                                    {% endif %}
+                                    </a>
+                                </li>
                                 {% endfor %}
                             {% endfor %}
                             {% endif %}
