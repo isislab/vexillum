@@ -11,6 +11,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="/static/js/markdown.min.js"></script>
+
     {% block style %}
     {% endblock %}
 </head>
@@ -49,10 +52,10 @@
         </div>
     </footer>
     <!--  Scripts-->
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="/static/js/materialize.js"></script>
+    <script src="/static/js/materialize.min.js"></script>
     <script src="/static/js/init.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+    <script src="/static/js/clipboard.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
     {% block scripts %}
     {% endblock %}

@@ -54,7 +54,7 @@
           <div class="collection z-depth-1">
           {% for row in events %}
           {% for event in row %}
-              <a href="{{ event['url'] }}" target="_blank" class="collection-item center">{{ event["name"] }}</a>
+              <a href="{{ event['url'] }}" target="_blank" class="collection-item">{{ event["name"] }}<span data-target="modal2" href="" class="secondary-content"><i class="material-icons">add</i></span></a>
           {% endfor %}
           {% endfor %}
           </div>

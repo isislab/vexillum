@@ -11,7 +11,10 @@
 
 {% block content %}
     <h5 class="page-title" style="margin-left: 2%; float: left; margin-bottom: 0px;">{{ event.name }}<a data-target="modal2" href=""><i class="material-icons prefix">mode_edit</i></a></h5>
-    <h5 class="page-title right" style="margin-right: 2%; float: right; margin-bottom: 0px;">Login:{{ event.login }} - Password:{{ event.password }}</h5>
+    <h5 class="page-title right" style="margin-right: 2%; float: right; margin-bottom: 0px;">
+    Login:&nbsp;<span id="loginclip">{{ event.login }}</span>&nbsp;<button class="btn clip" style="padding-right: .25em; padding-left: .25em" data-clipboard-target="#loginclip"><i class="material-icons">attach_file</i></button> - Password:&nbsp;<span id="passclip">{{ event.password }}</span>&nbsp;<button class="btn clip" style="padding-right: .25em; padding-left: .25em" data-clipboard-target="#passclip"><i class="material-icons">attach_file</i></button>
+    </h5>
+
     <div class="row" style="margin-bottom: 0px">
       <h5 class="clock-count center" style="margin-bottom: 0px; margin-top: 0px;">&nbsp;</h5>
     </div>
@@ -176,6 +179,8 @@
 {% block scripts %}
 <script>
   function clockinit() {
+
+    new Clipboard('.clip');
 
     var start = "{{ event.start }}";
     var index = 10;

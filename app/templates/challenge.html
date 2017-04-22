@@ -96,7 +96,17 @@
                   {% if e.type==0 %}
                   <li>
                       <div class="collapsible-header active"><i class="material-icons">format_quote</i>&lt;username&gt; - {{ e.name }} - {{ e.added }}</div>
-                      <div class="collapsible-body grey lighten-4"><span>{{ e.content }}</span></div>
+                      <div class="collapsible-body grey lighten-4">
+                        <textarea id='ta_del'>{{ e.content }}</textarea>
+                        <div id="comment_box"></div>
+                        <script>
+                          var s = $('#ta_del').val().replace(/\n/g, "\n");
+                          $('#comment_box').html(markdown.toHTML(s))
+                          console.log(s);
+                          $('#ta_del').remove()
+                          $('#comment_box').attr("id", "oldcomment");
+                      </script>
+                      </div>
                   </li>
                   {% elif e.type==1 %}
                   <li>
@@ -142,9 +152,24 @@
                       </div>
                       <div class="row">
                         <div class="input-field col s12">
-                            <textarea id="textarea1" class="materialize-textarea" name="description" required></textarea>
+                            <textarea id="textarea1" class="materialize-textarea" name="description" oninput="this.editor.update()" required></textarea>
                             <label for="textarea1">Description</label>
                         </div>
+                      </div>
+                      <div class="row"><span class="grey-text">Markdown Preview</span>
+                      <div class="divider"></div>
+                      <div id="preview"></div>
+                      <script>
+                        function Editor(input, preview) {
+                          this.update = function () {
+                            preview.innerHTML = markdown.toHTML(input.value);
+                          };
+                          input.editor = this;
+                          this.update();
+                        }
+                        var $ = function (id) { return document.getElementById(id); };
+                        new Editor($("textarea1"), $("preview"));
+                      </script>
                       </div>
                   </div>
                 
@@ -257,7 +282,7 @@
                       </div>
                       <div class="row">
                         <div class="input-field col s12">
-                            <textarea id="textarea4" class="materialize-textarea" name="description"></textarea>
+                            <textarea id="textarea4" class="materialize-textarea" name="description">{{ chal.description }}</textarea>
                             <label class="active" for="textarea4">Description</label>
                         </div>
                       </div>
@@ -286,11 +311,4 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-    function updatetext() {
-      var string = "{{ chal.description }}"
-      $('#textarea4').val(string);
-      $('#textarea4').trigger('autoresize');    
-    }
-</script>
 {% endblock %}
