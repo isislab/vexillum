@@ -28,7 +28,7 @@
                     <ul class="right hide-on-med-and-down">
                     {% if session.username is defined %}
                         <li><a href="/profile">{{ session.username }}</a></li>
-                        <li><a class="tooltipped clip" data-position="bottom" data-delay="50" data-tooltip="" data-clipboard-text=''>Invite</a></li>
+                        <li><a class="tooltipped clip" id="invitett" data-position="bottom" data-delay="50" data-tooltip="" data-clipboard-text=''>Invite</a></li>
                         {% if session.admin is defined %}
                         {% if session.admin==True %}
                         <li><a href="/admin">Admin</a></li>
@@ -75,16 +75,15 @@
     <script>hljs.initHighlightingOnLoad();</script>
     <script>
     function tokentip(){
-        var token;
         $.get('/invite', function (response) {
-            token = response;
+            var token = response;
+            $('#invitett').tooltip({
+                delay: 50,
+                tooltip: token
+            });
+            $('.clip').attr('data-clipboard-text', token.responseText);
+            new Clipboard('.clip');
         });
-        $('.tooltipped').tooltip({
-            delay: 50,
-            tooltip: token
-        });
-        $('.clip').attr('data-clipboard-text', token)
-        new Clipboard('.clip');
     }
     </script>
     {% block scripts %}
