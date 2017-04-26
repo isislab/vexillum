@@ -19,7 +19,10 @@ def login():
 		    session['admin'] = True
 		else:
 		    session['admin'] = False
-            return redirect(url_for('core.home'))
+		flash("Login Successful")
+		return redirect(url_for('core.home'))
+	    flash("Username or password incorrect")
+            return redirect(url_for('auth.login'))
         return render_template('login.html')
     else:
 	return redirect(url_for('core.home'))

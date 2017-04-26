@@ -59,10 +59,13 @@ def get_chals(eid):
     return [chals[i:i+4] for i in range(0, len(chals), 4)]
 
 def get_current_events():
-    return Event.query.filter(Event.end >= datetime.now()).all()
+    return Event.query.filter(Event.end >= datetime.now()).filter_by(archived=False).all()
 
 def get_past_events():
-    return Event.query.filter(Event.end < datetime.now()).all()
+    return Event.query.filter(Event.end < datetime.now()).filter_by(archived=False).all()
+
+def get_archived_events():
+    return Event.query.filter_by(archived=True).all()
 
 def upcoming_events():
 #Get the upcoming events for the next month

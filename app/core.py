@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, session, Blueprint, flash, jsonify
 from models import db, Event, Challenge, File, Entry, User, Config, WorkingOn
-from utils import upload_file, is_setup, logged_in, collaborators
+from utils import upload_file, is_setup, logged_in, collaborators, get_archived_events
 from passlib.hash import bcrypt_sha256 as bcrypt
 from werkzeug import secure_filename
 from datetime import datetime
@@ -131,6 +131,23 @@ def update_event():
             return redirect(request.url)
     return redirect(request.url)
 
+@core.route('/archive/<event_id>')
+def archive(event_id):
+    if logged_in():
+	e = Event.query.filter_by(eid=event_id).first()
+	if e:
+	    e.archived = True
+	    db.session.commit()
+	    db.session.close()
+	    flash("Event successfully archived")
+	    return redirect('/event/{}'.format(event_id))
+	flash("Event not found")
+	return redirect(url_for('core.home'))
+    return redirect(url_for('auth.login'))
+	
+@core.route('/archives')
+def archives():
+    return render_template('archives.html', events=get_archived_events())
 
 @core.route('/challenge/<chal_id>')
 def challenge(chal_id):
