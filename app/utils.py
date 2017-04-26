@@ -11,6 +11,7 @@ def logged_in():
 
 def init_utils(app):
     app.jinja_env.globals.update(logged_in=logged_in)
+    app.jinja_env.globals.update(team_name=team_name)
     app.jinja_env.globals.update(get_current_events=get_current_events)
     app.jinja_env.globals.update(get_past_events=get_past_events)
     app.jinja_env.globals.update(upcoming_events=upcoming_events)
@@ -80,6 +81,13 @@ def is_setup():
     if s and s.value=="True":
 	return True
     return False
+
+def team_name():
+    name = Config.query.filter_by(key="TEAM_NAME").first()
+    if name:
+	return name.value
+    else:
+	return "TEAM NAME"
 
 def collaborators(chal_id):
     people = WorkingOn.query.filter_by(cid=chal_id).filter_by(working=True).all()
