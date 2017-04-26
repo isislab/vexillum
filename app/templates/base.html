@@ -26,12 +26,27 @@
                     <a href="/" class="brand-logo center">Vexillum</a>
                     <a href="#" data-activates="mobile-menu" class="button-collapse right"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
+                    {% if session.username is defined %}
+                        <li><a href="/profile">{{ session.username }}</a></li>
+                        {% if session.admin is defined %}
+                        {% if session.admin==True %}
+                        <li><a href="/admin">Admin</a></li>
+                        {% endif %}
+                        {% endif %}
+                        <li><a href="/logout">Logout</a></li>
+                    {% else %}
                         <li><a href="/register">Register</a></li>
                         <li><a href="/login">Login</a></li>
+                    {% endif %}
                     </ul>
                     <ul class="side-nav" id="mobile-menu">
+                    {% if session.username is defined %}
+                        <li><a href="/profile">{{ session.username }}</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    {% else %}
                         <li><a href="/register">Register</a></li>
                         <li><a href="/login">Login</a></li>
+                    {% endif %}
                     </ul>
                 </div>
             </nav>

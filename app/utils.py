@@ -1,5 +1,5 @@
 from flask import session, render_template
-from models import db, Event, Challenge, Entry, File
+from models import db, Event, Challenge, Entry, File, Config, WorkingOn, User
 from werkzeug import secure_filename
 from datetime import datetime, timedelta
 import requests
@@ -10,13 +10,14 @@ def logged_in():
     return bool(session.get('username', False))
 
 def init_utils(app):
-    #app.jinja_env.globals.update(logged_in=logged_in)
+    app.jinja_env.globals.update(logged_in=logged_in)
     app.jinja_env.globals.update(get_current_events=get_current_events)
     app.jinja_env.globals.update(get_past_events=get_past_events)
     app.jinja_env.globals.update(upcoming_events=upcoming_events)
     app.jinja_env.globals.update(get_chals=get_chals)
     app.jinja_env.globals.update(get_entries=get_entries)
     app.jinja_env.globals.update(get_files=get_files)
+    app.jinja_env.globals.update(collaborators=collaborators)
 
 def init_errors(app):
     @app.errorhandler(404)
@@ -73,3 +74,13 @@ def upload_file(f):
     if not os.path.exists('app/static/uploads'):
         os.makedirs('app/static/uploads')
     f.save(os.path.join('app','static','uploads', secure_filename(f.filename)))
+
+def is_setup():
+    s = Config.query.filter_by(key="SETUP").first()
+    if s and s.value=="True":
+	return True
+    return False
+
+def collaborators(chal_id):
+    people = WorkingOn.query.filter_by(cid=chal_id).filter_by(working=True).all()
+    return [User.query.filter_by(uid=p.uid).first().name for p in people]

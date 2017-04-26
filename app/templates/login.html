@@ -8,18 +8,18 @@
   <div class="divider"></div>
   
 <div class="row container">
-    <form class="col s12">
+    <form class="col s12" action="/login" method="POST">
       <div class="row">
         <div class="input-field">
-          <i class="material-icons prefix">email</i>
-          <input id="email" type="email" class="validate">
-          <label for="email">Email</label>
+          <i class="material-icons prefix">account_circle</i>
+          <input id="email" type="text" class="validate" name="username">
+          <label for="email">Username</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field">
           <i class="material-icons prefix">vpn_key</i>
-          <input id="password" type="password" class="validate">
+          <input id="password" type="password" class="validate" name="password">
           <label for="password">Password</label>
         </div>
       </div>

@@ -1,5 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
+from hashlib import sha1
 import datetime
+import os
 
 db = SQLAlchemy()
 
@@ -87,6 +89,19 @@ class Entry(db.Model):
 	self.content = content
 	self.location = location
 
+class Invite(db.Model):
+    token = db.Column(db.String(64), primary_key=True)
+    created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    used = db.Column(db.Boolean, default=False)
+
+    def __init__(self):
+	self.token = sha1(os.urandom(24)).hexdigest()
+
+    def expired(self):
+	delta = datetime.datetime.utcnow() - self.created
+	if self.used or delta > datetime.timedelta(hours=24):
+	    return True
+	return False
 
 class Config(db.Model):
     kid = db.Column(db.Integer, primary_key=True, autoincrement=True)

@@ -2,13 +2,13 @@
 
 {% block content %}
   <div>
-    <h3 class="page-title center" style="margin-bottom: 0px">Register</h3>
+    <h3 class="page-title center" style="margin-bottom: 0px">Setup</h3>
   </div>
   <div class="row"></div>
   <div class="divider"></div>
   
 <div class="row container">
-    <form class="col s12" action="/register" method="POST">
+    <form class="col s12" action="/setup" method="POST">
       <div class="row">
         <div class="input-field col s6">
           <i class="material-icons prefix">account_circle</i>
@@ -23,9 +23,9 @@
       </div>
       <div class="row">
         <div class="input-field col s6">
-          <i class="material-icons prefix">lock</i>
-          <input id="token" type="text" class="validate" name="token">
-          <label for="token">Token</label>
+          <i class="material-icons prefix">work</i>
+          <input id="team_name" type="text" class="validate" name="team_name">
+          <label for="team_name">Team Name</label>
         </div>
         <div class="input-field col s6">
           <i class="material-icons prefix">vpn_key</i>
