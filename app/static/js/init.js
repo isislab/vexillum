@@ -2,9 +2,6 @@
     $(function() {
 
         $('.button-collapse').sideNav();
-        $('.tooltipped').tooltip({
-            delay: 50
-        });
         $('.modal').modal();
         $('select').material_select();
         $('.collapsible').collapsible();
@@ -13,6 +10,13 @@
     	}
     	if (typeof clockinit !== 'undefined') {
         	clockinit();
+        }
+        if (typeof tokentip !== 'undefined'){
+        	tokentip();
+        }else{
+        	$('.tooltipped').tooltip({
+            delay: 50
+        	});
         }
 
     }); // end of document ready
