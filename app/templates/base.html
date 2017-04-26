@@ -26,6 +26,7 @@
                     <a href="/" class="brand-logo center">Vexillum</a>
                     <a href="#" data-activates="mobile-menu" class="button-collapse right"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
+                        <li><a class="tooltipped clip" data-position="bottom" data-delay="50" data-tooltip="" data-clipboard-text=''>Copy Token</a></li>
                         <li><a href="/register">Register</a></li>
                         <li><a href="/login">Login</a></li>
                     </ul>
@@ -57,6 +58,20 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
     <script src="/static/js/clipboard.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    function tokentip(){
+        var token;
+        $.get('/invite', function (response) {
+            token = response;
+        });
+        $('.tooltipped').tooltip({
+            delay: 50,
+            tooltip: token
+        });
+        $('.clip').attr('data-clipboard-text', token)
+        new Clipboard('.clip');
+    }
+    </script>
     {% block scripts %}
     {% endblock %}
 </body>

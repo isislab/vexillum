@@ -12,7 +12,7 @@
 {% block content %}
     <h5 class="page-title" style="margin-left: 2%; float: left; margin-bottom: 0px;">{{ event.name }}<a data-target="modal2" href=""><i class="material-icons prefix">mode_edit</i></a></h5>
     <h5 class="page-title right" style="margin-right: 2%; float: right; margin-bottom: 0px;">
-    Login:&nbsp;<span id="loginclip">{{ event.login }}</span>&nbsp;<button class="btn clip" style="padding-right: .25em; padding-left: .25em" data-clipboard-target="#loginclip"><i class="material-icons">attach_file</i></button> - Password:&nbsp;<span id="passclip">{{ event.password }}</span>&nbsp;<button class="btn clip" style="padding-right: .25em; padding-left: .25em" data-clipboard-target="#passclip"><i class="material-icons">attach_file</i></button>
+    Login:&nbsp;<span id="loginclip">{{ event.login }}</span>&nbsp;<button class="btn clip tooltipped" data-position="bottom" data-delay="50" data-tooltip="Copy to clipboard" style="padding-right: .25em; padding-left: .25em" data-clipboard-target="#loginclip"><i class="material-icons">attach_file</i></button> - Password:&nbsp;<span id="passclip">{{ event.password }}</span>&nbsp;<button class="btn clip tooltipped" data-position="bottom" data-delay="50" data-tooltip="Copy to clipboard" style="padding-right: .25em; padding-left: .25em" data-clipboard-target="#passclip"><i class="material-icons">attach_file</i></button>
     </h5>
 
     <div class="row" style="margin-bottom: 0px">
