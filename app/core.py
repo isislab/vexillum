@@ -9,6 +9,11 @@ import os
 
 core = Blueprint('core', __name__)
 
+@core.before_request
+def redirect_setup():
+    if not is_setup() and request.path != "/setup":
+	return redirect(url_for('core.setup'))
+
 @core.route('/test')
 def test():
     return jsonify(collaborators(1))
