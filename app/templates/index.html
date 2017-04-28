@@ -51,13 +51,22 @@
       <h4 class="center">Upcoming CTFs</h4>
       {% with events = upcoming_events() %}
       {% if events %}
-          <div class="collection z-depth-1">
+          <ul class="collection z-depth-1">
           {% for row in events %}
           {% for event in row %}
-              <a href="{{ event['url'] }}" target="_blank" class="collection-item">{{ event["name"] }}<span data-target="modal2" href="" class="secondary-content"><i class="material-icons">add</i></span></a>
+            <li class="collection-item">
+              <div>{{ event["name"] }}
+                <a href="{{ event['url'] }}" target="_blank" class="secondary-content">
+                  <i class="material-icons">languages</i>
+                </a>
+                <a href="" class="secondary-content" data-target="modal2">
+                  <i class="material-icons">add</i>
+                </a>
+              </div>
+            </li>
           {% endfor %}
           {% endfor %}
-          </div>
+          </ul>
       {% endif %}
       {% endwith %}
     </div>

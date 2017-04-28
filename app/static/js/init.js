@@ -11,13 +11,9 @@
     	if (typeof clockinit !== 'undefined') {
         	clockinit();
         }
-        if (typeof tokentip !== 'undefined'){
-        	tokentip();
-        }else{
-        	$('.tooltipped').tooltip({
-            delay: 50
-        	});
-        }
+    	$('.tooltipped').tooltip({
+        	delay: 50
+    	});
 
     }); // end of document ready
 })(jQuery); // end of jQuery name space
