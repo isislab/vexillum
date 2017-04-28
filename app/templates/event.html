@@ -11,21 +11,21 @@
 
 {% block content %}
     <h5 class="page-title" style="margin-left: 2%; float: left; margin-bottom: 0px;">{{ event.name }}
-      <button class="btn tooltipped" data-target="modal2" style="padding-right: .25em; padding-left: .25em" data-tooltip="Edit Event"><i class="material-icons prefix">mode_edit</i></button>
+      <button class="waves-effect waves-light btn tooltipped" data-target="modal2" style="padding-right: .25em; padding-left: .25em" data-tooltip="Edit Event"><i class="material-icons prefix">mode_edit</i></button>
       <a href="/archive/{{ event.eid }}">
-        <button class="btn tooltipped" style="padding-right: .25em; padding-left: .25em" data-tooltip="Archive Event"><i class="material-icons">archive</i></button>
+        <button class="waves-effect waves-light btn tooltipped" style="padding-right: .25em; padding-left: .25em" data-tooltip="Archive Event"><i class="material-icons">archive</i></button>
       </a>
-      <button class="btn tooltipped" style="padding-right: .25em; padding-left: .25em" data-tooltip="Delete Event"><i class="material-icons">delete</i></button>
+      <button class="waves-effect waves-light btn tooltipped" style="padding-right: .25em; padding-left: .25em" data-tooltip="Delete Event"><i class="material-icons">delete</i></button>
     </h5>
     <h5 class="page-title right" style="margin-right: 2%; float: right; margin-bottom: 0px;">
     Login:&nbsp;
       <span id="loginclip">{{ event.login }}</span>&nbsp;
-      <button class="btn clip tooltipped" data-position="bottom" data-delay="10" data-tooltip="Copy to clipboard" style="padding-right: .25em; padding-left: .25em" data-clipboard-target="#loginclip">
+      <button class="waves-effect waves-light btn clipb tooltipped" data-position="bottom" data-delay="10" data-tooltip="Copy to clipboard" style="padding-right: .25em; padding-left: .25em" data-clipboard-text="{{ event.login }}">
         <i class="material-icons">assignment</i>
       </button> - Password:&nbsp;
       
       <span id="passclip">{{ event.password }}</span>&nbsp;
-      <button class="btn clip tooltipped" data-position="bottom" data-delay="10" data-tooltip="Copy to clipboard" style="padding-right: .25em; padding-left: .25em" data-clipboard-target="#passclip">
+      <button class="waves-effect waves-light btn clipb tooltipped" data-position="bottom" data-delay="10" data-tooltip="Copy to clipboard" style="padding-right: .25em; padding-left: .25em" data-clipboard-text="{{ event.password }}">
         <i class="material-icons">assignment</i>
       </button>
     </h5>
@@ -195,7 +195,7 @@
 <script>
   function clockinit() {
 
-    new Clipboard('.clip');
+    new Clipboard('.clipb');
 
     var start = "{{ event.start }}";
     var index = 10;

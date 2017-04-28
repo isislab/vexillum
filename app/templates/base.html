@@ -18,14 +18,18 @@
 <body>
     <header>
         <div class="navbar-fixed">
+        <!-- Dropdown Structure -->
+        <ul id="dropdown1" class="dropdown-content">
+          <li><a class="clip" id="invitett" data-clipboard-text=""><i class="material-icons">content_copy</i><span id="ddtext"></span></a></li>
+        </ul>
             <nav>
                 <div class="nav-wrapper blue-grey">
                     <a href="/" class="brand-logo center">Vexillum</a>
                     <a href="#" data-activates="mobile-menu" class="button-collapse right"><i class="material-icons">menu</i></a>
                     <ul class="right hide-on-med-and-down">
                     {% if session.username is defined %}
+                        <li><a class="dropdown-button" id='invitedd' data-alignment='right' data-beloworigin="true" data-constrainwidth="false" data-activates="dropdown1">Invite<i class="material-icons right">arrow_drop_down</i></a></li>
                         <li><a href="/profile">{{ session.username }}</a></li>
-                        <li><a class="tooltipped clip" id="invitett" data-position="bottom" data-delay="50" data-tooltip="" data-clipboard-text=''>Invite</a></li>
                         {% if session.admin is defined %}
                         {% if session.admin==True %}
                         <li><a href="/admin">Admin</a></li>
@@ -74,17 +78,18 @@
 
     <script>hljs.initHighlightingOnLoad();</script>
     <script>
-    function tokentip(){
-        $.get('/invite', function (response) {
-            var token = response;
-            $('#invitett').tooltip({
-                delay: 50,
-                tooltip: token
+    $(function() {
+        new Clipboard('.clip');
+        $('#invitedd')
+            .on('click', function(){
+                $.get('/invite', function (response) {
+                    var token = response;
+                    $('.clip').attr('data-clipboard-text', token);
+                    $('#invitett').attr('data-clipboard-text', token);
+                    $('#ddtext').html(token);
+                });
             });
-            $('.clip').attr('data-clipboard-text', token);
-            new Clipboard('.clip');
-        });
-    }
+    });
     </script>
     {% block scripts %}
     {% endblock %}
