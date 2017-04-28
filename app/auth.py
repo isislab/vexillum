@@ -87,5 +87,5 @@ def invite():
 	db.session.commit()
 	token = invite.token
 	db.session.close()
-	return token
+	return request.url_root + 'register?token=' + token
     return redirect(url_for('auth.login'))
