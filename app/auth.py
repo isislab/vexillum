@@ -88,4 +88,4 @@ def invite():
 	token = invite.token
 	db.session.close()
 	return request.url_root + 'register?token=' + token
-    return redirect(url_for('auth.login'))
+    return "Must be logged in to generate invite"

@@ -65,70 +65,82 @@ def setup():
 
 @core.route('/event/<event_id>')
 def event(event_id):
-    event = Event.query.filter_by(eid=event_id).first()
-    if event:
-		return render_template('event.html', event=event)
-    else:
-		return "Error"
+    if logged_in():
+	event = Event.query.filter_by(eid=event_id).first()
+	if event:
+	    return render_template('event.html', event=event)
+	else:
+	    flash("Error: Event not found")
+	    return redirect(url_for('core.home'))
+    flash('Must be logged in to access events')
+    return redirect(url_for('auth.login'))
 
 @core.route('/new_event', methods=['POST'])
 def new_event():
     if request.method == 'POST' and len(request.form)==7:
-        errors = []
-	#try:
-        name = request.form['name']
-        url = request.form['url']
-        start = datetime.strptime(request.form['start'],'%Y-%m-%dT%H:%M')
-        end = datetime.strptime(request.form['end'], '%Y-%m-%dT%H:%M')
-        login = request.form['login']
-        password = request.form['password']
-	#except:
-	    #errors.append("Error: missing one or more required fields")        
+	if logged_in():
+            errors = []
+	    try:
+                name = request.form['name']
+                url = request.form['url']
+                start = datetime.strptime(request.form['start'],'%Y-%m-%dT%H:%M')
+                end = datetime.strptime(request.form['end'], '%Y-%m-%dT%H:%M')
+                login = request.form['login']
+                password = request.form['password']
+	    except:
+	        errors.append("Error: missing one or more required fields")        
 
-        if len(errors) > 0:
-            return jsonify(errors)
-        else:
-            new_event = Event(name, url, start, end, login, password)
-            db.session.add(new_event)
-            db.session.commit()
-            eid = new_event.eid
-            db.session.close()
-	    flash("Successfully created event")
-            return redirect('/event/{}'.format(eid))
+            if len(errors) > 0:
+                return jsonify(errors)
+            else:
+                new_event = Event(name, url, start, end, login, password)
+                db.session.add(new_event)
+                db.session.commit()
+                eid = new_event.eid
+                db.session.close()
+	        flash("Successfully created event")
+                return redirect('/event/{}'.format(eid))
+	else:
+	    flash('Must be logged in to do this action')
+	    return redirect(url_for('auth.login'))
     else:
         return redirect(url_for('core.home'))
 
 @core.route('/update_event', methods=['GET','POST'])
 def update_event():
     if request.method == 'POST' and len(request.form)==8:
-        errors = []
-	try:
-	    name = request.form['name']
-            url = request.form['url']
-            start = datetime.strptime(request.form['start'],'%Y-%m-%dT%H:%M:%S')
-            end = datetime.strptime(request.form['end'], '%Y-%m-%dT%H:%M:%S')
-            login = request.form['login']
-            password = request.form['password']
-	except:
-	    errors.append("Error: missing one or more required fields")        
+	if logged_in():
+            errors = []
+	    try:
+	        name = request.form['name']
+                url = request.form['url']
+                start = datetime.strptime(request.form['start'],'%Y-%m-%dT%H:%M:%S')
+                end = datetime.strptime(request.form['end'], '%Y-%m-%dT%H:%M:%S')
+                login = request.form['login']
+                password = request.form['password']
+	    except:
+	        errors.append("Error: missing one or more required fields")        
 
-        if len(errors) > 0:
-            return redirect(url_for('core.home', errors=errors))
-        else:
-            event = Event.query.filter_by(eid=request.form['eid']).first()
-            if event:
-		event.name = name
-		event.url = url
-		event.start = start
-		event.end = end
-		event.login = login
-		event.password = password
-            	db.session.commit()
-            	eid = event.eid
-	    	flash("Successfully created event")
-            	return redirect('/event/{}'.format(eid))
-            db.session.close()
-            return redirect(request.url)
+            if len(errors) > 0:
+                return redirect(url_for('core.home', errors=errors))
+            else:
+                event = Event.query.filter_by(eid=request.form['eid']).first()
+                if event:
+	    	    event.name = name
+	    	    event.url = url
+	    	    event.start = start
+	    	    event.end = end
+	    	    event.login = login
+	    	    event.password = password
+                    db.session.commit()
+                    eid = event.eid
+	            flash("Successfully created event")
+                    return redirect('/event/{}'.format(eid))
+                db.session.close()
+		flash('Event not found')
+                return redirect(request.url)
+	flash('Must be logged in to edit events')
+	return redirect(url_for('auth.login'))
     return redirect(request.url)
 
 @core.route('/archive/<event_id>')
@@ -147,168 +159,192 @@ def archive(event_id):
 	
 @core.route('/archives')
 def archives():
-    return render_template('archives.html', events=get_archived_events())
+    if logged_in():
+    	return render_template('archives.html', events=get_archived_events())
+    flash('Must be logged in to access archives')
+    return redirect(url_for('auth.login'))
 
 @core.route('/challenge/<chal_id>')
 def challenge(chal_id):
-    chal = Challenge.query.filter_by(cid=chal_id).first()
-    event = Event.query.filter_by(eid=chal.eid).first()
-    db.session.close()
-    if chal and event:
-	return render_template('challenge.html', chal=chal, event=event)
-    else:
-	return "Error"
+    if logged_in():
+    	chal = Challenge.query.filter_by(cid=chal_id).first()
+    	event = Event.query.filter_by(eid=chal.eid).first()
+    	db.session.close()
+    	if chal and event:
+	    return render_template('challenge.html', chal=chal, event=event)
+    	else:
+	    return "Error"
+    flash('Must be logged in to access challenges')
+    return redirect(url_for('auth.login'))
 
 @core.route('/new_challenge', methods=['POST'])
 def new_challenge():
     if request.method == 'POST' and len(request.form)==6:
-	errors = []
-	#try:
-	eid = request.form['eid']
-	name = request.form['name']
-	category = request.form['category']
-	value = int(request.form['value'])
-	desc = request.form['description']
-	#except:
-	
-	if len(errors) > 0:
-	    return "Failed to add challenge"
-	else:
-	    new_chal = Challenge(eid, name, category, desc, value)
-	    db.session.add(new_chal)
-	    db.session.commit()
-
-	    cid = new_chal.cid
+	if logged_in():
+	    errors = []
 	    #try:
-	    files = request.files.getlist('file[]')
-	    if files and len(files) > 0:
-	    	for f in files:
-	    	    if f and len(f.filename) > 0:
-	    	        #try:
-	    	        upload_file(f)
-	    	        new_file = File(cid, f.filename)
-	    		db.session.add(new_file)
-	    		db.session.commit()
-	    	        #except:
-	    	    	#errors.append("Something went wrong")
-	    	    else:
-	    	        errors.append("Error: something wrong with the file or filename")
-	    	#except:
-	    	#    errors.append("No files recieved")
+	    eid = request.form['eid']
+	    name = request.form['name']
+	    category = request.form['category']
+	    value = int(request.form['value'])
+	    desc = request.form['description']
+	    #except:
+	    
+	    if len(errors) > 0:
+	        return "Failed to add challenge"
+	    else:
+	        new_chal = Challenge(eid, name, category, desc, value)
+	        db.session.add(new_chal)
+	        db.session.commit()
 
-	    db.session.close()
-	    return redirect('/event/{}'.format(eid))
+	        cid = new_chal.cid
+	        #try:
+	        files = request.files.getlist('file[]')
+	        if files and len(files) > 0:
+	        	for f in files:
+	        	    if f and len(f.filename) > 0:
+	        	        #try:
+	        	        upload_file(f)
+	        	        new_file = File(cid, f.filename)
+	        		db.session.add(new_file)
+	        		db.session.commit()
+	        	        #except:
+	        	    	#errors.append("Something went wrong")
+	        	    else:
+	        	        errors.append("Error: something wrong with the file or filename")
+	        	#except:
+	        	#    errors.append("No files recieved")
+
+	        db.session.close()
+	        return redirect('/event/{}'.format(eid))
+	else:
+	    flash('Must be logged in to create challenges')
+	    return redirect(url_for('auth.login'))
     else:
 	return "Failed to add challenge"
 
 @core.route('/update_challenge', methods=['POST'])
 def update_challenge():
     if request.method == 'POST' and len(request.form)==7:
-	errors = []
-	try:
-	    eid = request.form['eid']
-	    name = request.form['name']
-	    category = request.form['category']
-	    value = int(request.form['value'])
-	    desc = request.form['description']
-	except:
-	    errors.append("Error: One or more fields missing or incorrect")
-	
-	if len(errors) > 0:
-	    return "Failed to update challenge"
-	else:
-	    chal = Challenge.query.filter_by(cid=request.form['cid']).first()
-	    if chal:
-		chal.name = name
-		chal.category = category
-		chal.value = value
-		chal.description = desc
-	    	db.session.commit()
-	    	cid = chal.cid
-		
-		#try:
-	        files = request.files.getlist('file[]')
-	        if files and len(files) > 0:
-	            for f in files:
-	                if f and len(f.filename) > 0:
-	                    #try:
-	                    upload_file(f)
-	                    new_file = File(cid, f.filename)
-	            	    db.session.add(new_file)
-	            	    db.session.commit()
-	                    #except:
-	                	#errors.append("Something went wrong")
-	                else:
-	                    errors.append("Error: something wrong with the file or filename")
+	if logged_in():
+	    errors = []
+	    try:
+	        eid = request.form['eid']
+	        name = request.form['name']
+	        category = request.form['category']
+	        value = int(request.form['value'])
+	        desc = request.form['description']
+	    except:
+	        errors.append("Error: One or more fields missing or incorrect")
+	    
+	    if len(errors) > 0:
+	        return "Failed to update challenge"
+	    else:
+	        chal = Challenge.query.filter_by(cid=request.form['cid']).first()
+	        if chal:
+	    	    chal.name = name
+	    	    chal.category = category
+	    	    chal.value = value
+	    	    chal.description = desc
+	            db.session.commit()
+	            cid = chal.cid
+	    	
+	    	#try:
+	            files = request.files.getlist('file[]')
+	            if files and len(files) > 0:
+	                for f in files:
+	                    if f and len(f.filename) > 0:
+	                        #try:
+	                        upload_file(f)
+	                        new_file = File(cid, f.filename)
+	                	db.session.add(new_file)
+	                	db.session.commit()
+	                        #except:
+	                    	#errors.append("Something went wrong")
+	                    else:
+	                        errors.append("Error: something wrong with the file or filename")
 	            #except:
 	            #    errors.append("No files recieved")
-	    	return redirect('/challenge/{}'.format(cid))
-	    db.session.close()
-	    return redirect(request.url)
+		    db.session.close()
+	            return redirect('/challenge/{}'.format(cid))
+	        db.session.close()
+	        return redirect(request.url)
+	else:
+	    flash('Must be logged in to do this action')
+	    return redirect(url_for('auth.login'))
     else:
 	return "Failed to add challenge"
 
 @core.route('/new_entry', methods=['POST'])
 def new_entry():
     if request.method == 'POST':
-	errors = []
-	try:
-	    entry_type = int(request.form['type'])
-	except:
-	    errors.append("Error: missing type")
-	    flash("Error: missing type", "error")
-	    return redirect('/challenge/{}'.format(request.form['cid']))
+	if logged_in():
+	    errors = []
+	    try:
+	        entry_type = int(request.form['type'])
+	    except:
+	        errors.append("Error: missing type")
+	        flash("Error: missing type", "error")
+	        return redirect('/challenge/{}'.format(request.form['cid']))
 
-	chal_id = request.form['cid']
-	name = request.form['name']
+	    chal_id = request.form['cid']
+	    name = request.form['name']
 
-	if entry_type in range(0,2):
-	    desc = request.form['description']
-	    new_entry = Entry(chal_id, entry_type, name, desc,)
-	elif entry_type == 2:
-	    if 'file' in request.files:
-		f = request.files['file']
-		if f and len(f.filename) > 0:
-		    try:
-			upload_file(f)
-			new_entry = Entry(chal_id, entry_type, name, None, f.filename)
-		    except:
-			errors.append("Something went wrong")
-		else:
-		    errors.append("Error: something wrong with the file or filename")
+	    if entry_type in range(0,2):
+	        desc = request.form['description']
+	        new_entry = Entry(chal_id, entry_type, name, desc,)
+	    elif entry_type == 2:
+	        if 'file' in request.files:
+	    	    f = request.files['file']
+	    	    if f and len(f.filename) > 0:
+	    	        try:
+	    	    	    upload_file(f)
+	    	    	    new_entry = Entry(chal_id, entry_type, name, None, f.filename)
+	    	        except:
+	    	    	    errors.append("Something went wrong")
+	    	    else:
+	    	        errors.append("Error: something wrong with the file or filename")
+	        else:
+	    	    errors.append("No file recieved")
 	    else:
-		errors.append("No file recieved")
+	        errors.append("Error: invalid type")
+	    if len(errors) > 0:
+	        return str(errors)
+	    else:
+	        db.session.add(new_entry)
+	        db.session.commit()
+	        db.session.close()
+	        return redirect('/challenge/{}'.format(chal_id))
 	else:
-	    errors.append("Error: invalid type")
-	if len(errors) > 0:
-	    return str(errors)
-	else:
-	    db.session.add(new_entry)
-	    db.session.commit()
-	    db.session.close()
-	    return redirect('/challenge/{}'.format(chal_id))
+	    flash('Must be logged in to do this action')
+	    return redirect(url_for('auth.login'))
     else:
 	return "Failed to add entry" 
 
 @core.route("/submit_flag", methods=['POST'])
 def submit_flag():
     if request.method=='POST' and len(request.form)==3:
-	errors = []
-	try:
-	    chal_id = request.form['cid']
-	    flag = request.form['flag']
-	    chal = Challenge.query.filter_by(cid=chal_id).first()
-	except:
-	    errors.append("Error: one or more required fields missing or invalid")
+	if logged_in():
+	    errors = []
+	    try:
+	        chal_id = request.form['cid']
+	        flag = request.form['flag']
+	        chal = Challenge.query.filter_by(cid=chal_id).first()
+	    except:
+	        errors.append("Error: one or more required fields missing or invalid")
 
-	if chal and len(errors)==0:
-	    chal.flag = flag
-	    chal.solved = True
-	    db.session.commit()
-	    db.session.close()
-	    return redirect("/challenge/{}".format(chal_id))
+	    if chal and len(errors)==0:
+	        chal.flag = flag
+	        chal.solved = True
+	        db.session.commit()
+	        db.session.close()
+	        return redirect("/challenge/{}".format(chal_id))
+	    else:
+	        return jsonify(errors)
 	else:
-	    return jsonify(errors)
+	    flash('Must be logged in to do this action')
+	    return redirect(url_for('auth.login'))
+    return redirect(request.url)
 
 @core.route('/working/<chal_id>')
 def working(chal_id):

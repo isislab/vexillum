@@ -60,7 +60,7 @@
               </div>
               <div id="tab2">
                 <div class="row">
-                  <ul class="collection">
+                  <ul id="collaborators" class="collection">
                     {% for p in people %}
                     <li class="collection-item"><div>{{ p }}<a href="#!" class="secondary-content"><i class="material-icons">perm_identity</i></a></div></li>
                     {% endfor %}
@@ -99,13 +99,13 @@
                       <div class="collapsible-body grey lighten-4">
                         <textarea id='ta_del'>{{ e.content }}</textarea>
                         <div id="comment_box"></div>
-                        <script>
+                        <!-- <script>
                           var s = $('#ta_del').val().replace(/\n/g, "\n");
                           $('#comment_box').html(markdown.toHTML(s))
                           console.log(s);
                           $('#ta_del').remove()
                           $('#comment_box').attr("id", "oldcomment");
-                      </script>
+                      </script> -->
                       </div>
                   </li>
                   {% elif e.type==1 %}
@@ -159,7 +159,7 @@
                       <div class="row"><span class="grey-text">Markdown Preview</span>
                       <div class="divider"></div>
                       <div id="preview"></div>
-                      <script>
+                      <!-- <script>
                         function Editor(input, preview) {
                           this.update = function () {
                             preview.innerHTML = markdown.toHTML(input.value);
@@ -169,7 +169,7 @@
                         }
                         var $ = function (id) { return document.getElementById(id); };
                         new Editor($("textarea1"), $("preview"));
-                      </script>
+                      </script> -->
                       </div>
                   </div>
                 
@@ -312,13 +312,31 @@
 
 {% block scripts %}
 <script>
-$("#working").click(function() {
-  $.get('/working/{{ chal.cid }}');
-});
+    var s = $('#ta_del').val().replace(/\n/g, "\n");
+    $('#comment_box').html(markdown.toHTML(s))
+    console.log(s);
+    $('#ta_del').remove()
+    $('#comment_box').attr("id", "oldcomment");
+</script>
+<script>
+  function Editor(input, preview) {
+    this.update = function () {
+      preview.innerHTML = markdown.toHTML(input.value);
+    };
+    input.editor = this;
+    this.update();
+  }
+  var $ = function (id) { return document.getElementById(id); };
+  new Editor($("textarea1"), $("preview"));
+</script>
+<script>
+// $("#working").click(function() {
+//   $.get('/working/{{ chal.cid }}');
+// });
 
-$("#stopworking").click(function() {
-  $.get('/stop_working/{{ chal.cid }}');
-});
+// $("#stopworking").click(function() {
+//   $.get('/stop_working/{{ chal.cid }}');
+// });
 
 $(function() {
 {% with messages = get_flashed_messages() %}
@@ -328,6 +346,32 @@ $(function() {
     {% endfor %}
   {% endif %}
 {% endwith %}
+
+    var username = "{{ session.username }}";
+
+   $('#working').on('click', 
+    function(){
+        $.get('/working/{{ chal.cid }}', function (response) {
+            if (response == "Success") {
+              var li = '<li class="collection-item"><div>' + username + '<a href="#!" class="secondary-content"><i class="material-icons">perm_identity</i></a></div></li>';
+              $('#collaborators').append(li);
+            } else {
+              Materialize.toast(response, 1000);
+            }
+        });
+    });
+
+   $('#notworking').on('click', 
+    function(){
+        $.get('/stop_working/{{ chal.cid }}', function (response) {
+            if (response == "Success") {
+              $('#collaborators').append(li);
+            } else {
+              Materialize.toast(response, 1000);
+            }
+        });
+    });
+
 });
 </script>
 {% endblock %}
