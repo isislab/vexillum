@@ -80,13 +80,13 @@
     <script>
     $(function() {
         new Clipboard('.clip');
-        $('#invitedd')
+        jQuery('#invitedd')
             .on('click', function(){
-                $.get('/invite', function (response) {
+                jQuery.get('/invite', function (response) {
                     var token = response;
-                    $('.clip').attr('data-clipboard-text', token);
-                    $('#invitett').attr('data-clipboard-text', token);
-                    $('#ddtext').html(token);
+                    jQuery('.clip').attr('data-clipboard-text', token);
+                    jQuery('#invitett').attr('data-clipboard-text', token);
+                    jQuery('#ddtext').html(token);
                 });
             });
     });

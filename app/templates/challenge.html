@@ -314,7 +314,6 @@
 <script>
     var s = $('#ta_del').val().replace(/\n/g, "\n");
     $('#comment_box').html(markdown.toHTML(s))
-    console.log(s);
     $('#ta_del').remove()
     $('#comment_box').attr("id", "oldcomment");
 </script>
