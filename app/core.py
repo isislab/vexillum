@@ -179,101 +179,101 @@ def challenge(chal_id):
 
 @core.route('/new_challenge', methods=['POST'])
 def new_challenge():
-    if request.method == 'POST' and len(request.form)==6:
-	if logged_in():
-	    errors = []
-	    #try:
-	    eid = request.form['eid']
-	    name = request.form['name']
-	    category = request.form['category']
-	    value = int(request.form['value'])
-	    desc = request.form['description']
-	    #except:
-	    
-	    if len(errors) > 0:
-	        return "Failed to add challenge"
-	    else:
-	        new_chal = Challenge(eid, name, category, desc, value)
-	        db.session.add(new_chal)
-	        db.session.commit()
+    if request.method == 'POST' and len(request.form)==7:
+		if logged_in():
+		    errors = []
+		    #try:
+		    eid = request.form['eid']
+		    name = request.form['name']
+		    category = request.form['category']
+		    value = int(request.form['value'])
+		    desc = request.form['description']
+		    #except:
+		    
+		    if len(errors) > 0:
+		        return "Failed to add challenge [2]"
+		    else:
+		        new_chal = Challenge(eid, name, category, desc, value)
+		        db.session.add(new_chal)
+		        db.session.commit()
 
-	        cid = new_chal.cid
-	        #try:
-	        files = request.files.getlist('file[]')
-	        if files and len(files) > 0:
-	        	for f in files:
-	        	    if f and len(f.filename) > 0:
-	        	        #try:
-	        	        upload_file(f)
-	        	        new_file = File(cid, f.filename)
-	        		db.session.add(new_file)
-	        		db.session.commit()
-	        	        #except:
-	        	    	#errors.append("Something went wrong")
-	        	    else:
-	        	        errors.append("Error: something wrong with the file or filename")
-	        	#except:
-	        	#    errors.append("No files recieved")
+		        cid = new_chal.cid
+		        #try:
+		        files = request.files.getlist('file[]')
+		        if files and len(files) > 0:
+		        	for f in files:
+		        	    if f and len(f.filename) > 0:
+		        	        #try:
+		        	        upload_file(f)
+		        	        new_file = File(cid, f.filename)
+		        		db.session.add(new_file)
+		        		db.session.commit()
+		        	        #except:
+		        	    	#errors.append("Something went wrong")
+		        	    else:
+		        	        errors.append("Error: something wrong with the file or filename")
+		        	#except:
+		        	#    errors.append("No files recieved")
 
-	        db.session.close()
-	        return redirect('/event/{}'.format(eid))
-	else:
-	    flash('Must be logged in to create challenges')
-	    return redirect(url_for('auth.login'))
+		        db.session.close()
+		        return redirect('/event/{}'.format(eid))
+		else:
+		    flash('Must be logged in to create challenges')
+		    return redirect(url_for('auth.login'))
     else:
-	return "Failed to add challenge"
+		return "Failed to add challenge"
 
 @core.route('/update_challenge', methods=['POST'])
 def update_challenge():
     if request.method == 'POST' and len(request.form)==7:
-	if logged_in():
-	    errors = []
-	    try:
-	        eid = request.form['eid']
-	        name = request.form['name']
-	        category = request.form['category']
-	        value = int(request.form['value'])
-	        desc = request.form['description']
-	    except:
-	        errors.append("Error: One or more fields missing or incorrect")
-	    
-	    if len(errors) > 0:
-	        return "Failed to update challenge"
-	    else:
-	        chal = Challenge.query.filter_by(cid=request.form['cid']).first()
-	        if chal:
-	    	    chal.name = name
-	    	    chal.category = category
-	    	    chal.value = value
-	    	    chal.description = desc
-	            db.session.commit()
-	            cid = chal.cid
-	    	
-	    	#try:
-	            files = request.files.getlist('file[]')
-	            if files and len(files) > 0:
-	                for f in files:
-	                    if f and len(f.filename) > 0:
-	                        #try:
-	                        upload_file(f)
-	                        new_file = File(cid, f.filename)
-	                	db.session.add(new_file)
-	                	db.session.commit()
-	                        #except:
-	                    	#errors.append("Something went wrong")
-	                    else:
-	                        errors.append("Error: something wrong with the file or filename")
-	            #except:
-	            #    errors.append("No files recieved")
-		    db.session.close()
-	            return redirect('/challenge/{}'.format(cid))
-	        db.session.close()
-	        return redirect(request.url)
-	else:
-	    flash('Must be logged in to do this action')
-	    return redirect(url_for('auth.login'))
+		if logged_in():
+		    errors = []
+		    try:
+		        eid = request.form['eid']
+		        name = request.form['name']
+		        category = request.form['category']
+		        value = int(request.form['value'])
+		        desc = request.form['description']
+		    except:
+		        errors.append("Error: One or more fields missing or incorrect")
+		    
+		    if len(errors) > 0:
+		        return "Failed to update challenge"
+		    else:
+		        chal = Challenge.query.filter_by(cid=request.form['cid']).first()
+		        if chal:
+		    	    chal.name = name
+		    	    chal.category = category
+		    	    chal.value = value
+		    	    chal.description = desc
+		            db.session.commit()
+		            cid = chal.cid
+		    	
+		    	#try:
+		            files = request.files.getlist('file[]')
+		            if files and len(files) > 0:
+		                for f in files:
+		                    if f and len(f.filename) > 0:
+		                        #try:
+		                        upload_file(f)
+		                        new_file = File(cid, f.filename)
+		                	db.session.add(new_file)
+		                	db.session.commit()
+		                        #except:
+		                    	#errors.append("Something went wrong")
+		                    else:
+		                        errors.append("Error: something wrong with the file or filename")
+		            #except:
+		            #    errors.append("No files recieved")
+			    db.session.close()
+		            return redirect('/challenge/{}'.format(cid))
+		        db.session.close()
+		        return redirect(request.url)
+		else:
+		    flash('Must be logged in to do this action')
+		    return redirect(url_for('auth.login'))
     else:
-	return "Failed to add challenge"
+		return "Failed to add challenge"
 
 @core.route('/new_entry', methods=['POST'])
 def new_entry():
