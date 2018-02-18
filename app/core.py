@@ -179,7 +179,7 @@ def challenge(chal_id):
 
 @core.route('/new_challenge', methods=['POST'])
 def new_challenge():
-    if request.method == 'POST' and len(request.form)==7:
+    if request.method == 'POST' and len(request.form)>=6:
 		if logged_in():
 		    errors = []
 		    #try:
@@ -225,7 +225,7 @@ def new_challenge():
 
 @core.route('/update_challenge', methods=['POST'])
 def update_challenge():
-    if request.method == 'POST' and len(request.form)==7:
+    if request.method == 'POST' and len(request.form)>=6:
 		if logged_in():
 		    errors = []
 		    try:
